@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>war</packaging>
+
+  <groupId>com.subdigit</groupId>
+  <artifactId>authentication</artifactId>
+  <name>Authentication Module</name>
+  <description>A module for allowing 3rd party authentications in Java via locations like Twitter, Facebook, and Google+.</description>
+  <url>https://github.com/subdigit/authentication</url>
+  <version>0.1.0</version>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/subdigit/authentication</url>
+    <connection>scm:git:git://github.com/subdigit/authentication.git</connection>
+    <developerConnection>scm:git:git@github.com:subdigit/authentication.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>subdigit</id>
+      <name>Robi Brunner</name>
+      <email>subdigit@gmail.com</email>
+      <url>http://subdigit.com</url>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>        UTF-8</project.build.sourceEncoding>
+    <jdk.version>                         1.7</jdk.version>
+    <junit.version>                       4.11</junit.version>
+    <javax.servlet-api.version>           3.0.1</javax.servlet-api.version>
+    <twitter4j-core.version>              3.0.3</twitter4j-core.version>
+    <commons-lang3.version>               3.1</commons-lang3.version>
+    <httpclient.version>                  4.3-alpha1</httpclient.version>
+    <httpclient-cache.version>            4.3-alpha1</httpclient-cache.version>
+    <commons-configuration.version>       1.9</commons-configuration.version>
+    <google-api-client.version>           1.13.2-beta</google-api-client.version>
+    <gson.version>                        2.2.2</gson.version>
+    <guava.version>                       14.0</guava.version>
+    <google-http-client-jackson.version>  1.13.1-beta</google-http-client-jackson.version>
+    <google-api-services-oauth2.version>  v2-rev30-1.13.2-beta</google-api-services-oauth2.version>
+    <google-api-services-plus.version>    v1-rev58-1.13.2-beta</google-api-services-plus.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>apache</id>
+      <url>https://repository.apache.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <id>google-api-services</id>
+      <url>http://google-api-client-libraries.appspot.com/mavenrepo</url>
+    </repository>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${javax.servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.twitter4j</groupId>
+      <artifactId>twitter4j-core</artifactId>
+      <version>${twitter4j-core.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons-lang3.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${httpclient.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient-cache</artifactId>
+      <version>${httpclient-cache.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>${commons-configuration.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api-client</groupId>
+      <artifactId>google-api-client</artifactId>
+      <version>${google-api-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>${gson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.http-client</groupId>
+      <artifactId>google-http-client-jackson</artifactId>
+      <version>${google-http-client-jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-oauth2</artifactId>
+      <version>${google-api-services-oauth2.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-plus</artifactId>
+      <version>${google-api-services-plus.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>authentication-${project.version}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.3</version>
+        <configuration>
+          <archiveClasses>true</archiveClasses>
+          <webResources>
+            <resource>
+              <directory>${basedir}/src/main/java</directory>
+              <targetPath>WEB-INF/classes</targetPath>
+              <includes>
+                <include>**/*.properties</include>
+                <include>**/*.xml</include>
+                <include>**/*.css</include>
+                <include>**/*.html</include>
+              </includes>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+          <encoding>UTF-8</encoding>
+         </configuration>
+     </plugin>
+     <plugin>
+       <groupId>org.apache.tomcat.maven</groupId>
+       <artifactId>tomcat7-maven-plugin</artifactId>
+       <version>2.0</version>
+       <configuration>
+         <url>http://localhost:8080/manager</url>
+       </configuration>
+     </plugin>
+   </plugins>
+ </build>
+</project>

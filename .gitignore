@@ -1,1 +1,21 @@
-target/
+# use glob syntax.
+syntax: glob
+*.class
+*~
+*.bak
+*.off
+*.old
+.DS_Store
+*.log
+
+# Build outputs
+target
+
+# Eclipse junk; leading slash makes patterns non-recursive
+/.settings/
+/.project
+/.classpath
+
+# Property files that contain sensetive information (like client keys/secrets)
+src/main/resources/authenticationserviceconfiguration.properties
+

@@ -1,0 +1,25 @@
+asc.availableservices				= twitter, facebook, googleplus
+
+asc.service.twitter.enabled			= false
+asc.service.twitter.name			= Twitter
+asc.service.twitter.classname		= com.subdigit.auth.service.TwitterAuthenticationService
+asc.service.twitter.appid			= [Insert Twitter Consumer key]
+asc.service.twitter.appsecret		= [Insert Twitter Consumer secret]
+asc.service.twitter.scope			=
+asc.service.twitter.statecheck		= false
+
+asc.service.facebook.enabled		= false
+asc.service.facebook.name			= Facebook
+asc.service.facebook.classname		= com.subdigit.auth.service.FacebookAuthenticationService
+asc.service.facebook.appid			= [Insert Facebook App ID]
+asc.service.facebook.appsecret		= [Insert Facebook App Secret]
+asc.service.facebook.scope			= publish_stream, email
+asc.service.facebook.statecheck		= true
+
+asc.service.googleplus.enabled		= false
+asc.service.googleplus.name			= Google+
+asc.service.googleplus.classname	= com.subdigit.auth.service.GooglePlusAuthenticationService
+asc.service.googleplus.appid		= [Insert Google Client ID]
+asc.service.googleplus.appsecret	= [Insert Google Client secret]
+asc.service.googleplus.scope		= https://www.googleapis.com/auth/plus.login
+asc.service.googleplus.statecheck	= true
