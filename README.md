@@ -2,11 +2,16 @@ Authentication Module
 ==============
 
 I wanted to start building some common and useful building blocks for creating sites.  First up would be something with authentication and
-user logins.  So here we have a authentication module that allows for 3rd party based logins.
+user logins.  So here we have an authentication module that allows for 3rd party based logins.
 
-Long story short, you can use this to authenticate the user through places like Twitter, Facebook, and Google+.
+Long story short, you can use this to authenticate the user through places like Twitter, Facebook, Google+, and Mozilla's Persona.
 
-You will need to copy and edit the "src/main/resources/authenticationserviceconfiguration.properties.sample" to "src/main/resources/authenticationserviceconfiguration.properties" and fill in the proper "appid" and "appsecred" values for each service you want to enable.  This will require a bit of diligence on your part to go to the service websites, register an app, and harvest the proper values.
+You will need to copy and edit the "src/main/resources/authenticationserviceconfiguration.properties.sample" to "src/main/resources/authenticationserviceconfiguration.properties" and fill in the proper "appid" and "appsecret" values for each service you want to enable.  This will require a bit of diligence on your part to go to the service websites, register an app, and harvest the proper values.
+
+* Twitter: https://dev.twitter.com/ (Tip: You *must* have the CallbackURL value filled.  Just put in any valid URL.  It'll be overwritten anyway)
+* Facebook: https://developers.facebook.com/apps
+* Google: https://code.google.com/apis/console/
+* Persona: none
 
 During that process, you can tell the application that your request will be coming from http://localhost:8080/authentication/ as that's the default coded into the "src/main/resources/authenticationconfiguration.properties" file.  You can change that as you wish though.
 
