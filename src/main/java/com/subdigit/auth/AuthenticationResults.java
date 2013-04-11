@@ -158,7 +158,7 @@ public class AuthenticationResults
 	{
 		Status status = null;
 
-		if(_statusArchive != null) status = _statusArchive.getLast();
+		if(_statusArchive != null && _statusArchive.size() > 0) status = _statusArchive.getLast();
 
 		return status;
 	}

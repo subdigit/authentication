@@ -2,10 +2,28 @@
 <!-- The top of file index.html -->
 <html itemscope itemtype="http://schema.org/Article">
 <head>
-  <!-- BEGIN Pre-requisites -->
+<!-- BEGIN Pre-requisites -->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){ %>
+  <script type="text/javascript">
+    // Facebook beautification fix
+    // http://stackoverflow.com/a/10068176/223362
+  	$(window).on('load', function(e){
+  	  if(window.location.hash == '#_=_'){
+  	    window.location.hash = ''; // for older browsers, leaves a # behind
+  	    history.pushState('', document.title, window.location.pathname); // nice and clean
+  	    e.preventDefault(); // no page reload
+  	  }
+  	});
+    </script>
+<% } %>
+
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){ %>
 <!--
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
   <script type="text/javascript">
     (function () {
       var po = document.createElement('script');
@@ -17,7 +35,7 @@
     })();
   </script>
 -->
-  <!-- END Pre-requisites -->
+<% } %>
   
   <style>
 .container {
@@ -79,35 +97,45 @@ button.signin {
 	white-space: nowrap;
 }
 
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("twitter")){ %>
 button.twitter {
-	xxxbackground: #46a5e3;
 	background: #00aced;
 }
 
+button.twitter:hover {
+	background: #11bdfe;
+}
+<% } %>
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){ %>
 button.facebook {
-	xxxbackground: #3d5382;
 	background: #3b5998;
 }
 
+button.facebook:hover {
+	background: #4c6aa9;
+}
+<% } %>
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){ %>
 button.googleplus {
-	xxxbackground: #dd4b39;
 	background: #d03324;
 }
 
-button.twitter:hover {
-	xxxbackground: #57b6f4;
-	background: #11bdfe;
-}
-
-button.facebook:hover {
-	xxxbackground: #4e6493;
-	background: #4c6aa9;
-}
-
 button.googleplus:hover {
-	xxxbackground: #ee5c4a;
 	background: #e14435;
 }
+<% } %>
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("persona")){ %>
+button.persona {
+	background: #bbbbbb;
+}
+
+button.persona:hover {
+	background: #cccccc;
+}
+<% } %>
 
 #signinresults {
 	background: #fff;
@@ -128,50 +156,70 @@ img.profile {
 </head>
 <body>
 <div class="container">
-<div id="content">
-<div id="signindescription">
+  <div id="content">
+    <div id="signindescription">
 Just a quick experiment with 3rd party authentications.  The system will redirect to the respective party's authentication system and request for application permission.  Once granted, it will redirect back to the callback servlet and process the information.
 <br /><br />If all goes well, you should see some relevant personal data below.
-</div>
-<div id="signinservices">
+    </div>
+    <div id="signinservices">
 
-<% if(AuthenticationServiceConfiguration.getInstance().getAvailableServicesCount() > 0){ %>
-	<% for(String service : AuthenticationServiceConfiguration.getInstance().getAvailableServices()){ %>
-<form action="<%=AuthenticationConfiguration.getInstance().getApplicationServiceLoginURL(service, false, true)%>">
-	<button type="submit" class="signin <%=service%>">
-		<span class='signin-icon <%=service%>'></span><span class="signin-text"><img class="center" width="32" height="32" border="0" src="images/icons/<%=service%>.png"/> Connect with <%=AuthenticationServiceConfiguration.getInstance().getServiceName(service)%></span>
-	</button>
-</form>
+<%
+	if(AuthenticationServiceConfiguration.getInstance().getEnabledServicesCount() > 0){
+%>
+	<%
+		for(String service : AuthenticationServiceConfiguration.getInstance().getEnabledServices()){
+	%>
+      <form action="<%=AuthenticationConfiguration.getInstance().getApplicationServiceLoginURL(service, false, true)%>">
+        <button type="submit" class="signin <%=service%>">
+          <span class='signin-icon <%=service%>'></span><span class="signin-text"><img class="center" width="32" height="32" border="0" src="images/icons/<%=service%>.png"/> Connect with <%=AuthenticationServiceConfiguration.getInstance().getServiceName(service)%></span>
+        </button>
+      </form>
 	<% } %>
 <% } else { %>
-<div id="signinservicesmessage">
-<h2>No services available!</h2>
-Hmm, did you configure your secrets properly in the property file?  How about making sure .enabled is true?
-</div>
+      <div id="signinservicesmessage">
+        <h2>No services available!</h2>
+        Hmm, did you configure your secrets properly in the property file?  How about making sure .enabled is true?
+      </div>
 <% } %>
+    </div>
 
+    <br clear="all" />
 
-</div>
-<br clear="all" />
-<div id="signinresults">
-<br />
+    <div id="signinresults">
+
+    <br />
 <%
 AuthenticationResults ar = (AuthenticationResults) ServletHelper.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults(), request);
-if(ar != null && ar.hasServiceUserID()){
-	String profileURL = (String) ar.getVariable("profileurl");
-	String imageURL = (String) ar.getVariable("imageurl");
-	String displayName = (String) ar.getVariable("displayname");
-%>
-<img class="profile center" src="<%=imageURL%>" width="50" height="50" border="0" /> Hi <%=displayName%>.  Thanks for logging in with your <%=AuthenticationServiceConfiguration.getInstance().getServiceName(ar.getService())%> account: <a href="<%=profileURL%>"><%=ar.getServiceUserID()%></a>
-<%
-} else {
-%>Not logged in.  Pick a service from above!<%
-}
-%>
-<br />
-<br />
+String profileURL = null;
+String imageURL = null;
+String displayName = null;
+String email = null;
+String service = null;
 
-<!-- Add where you want your sign-in button to render -->
+if(ar != null && ar.hasServiceUserID()){
+	profileURL = (String) ar.getVariable("profileurl");
+	imageURL = (String) ar.getVariable("imageurl");
+	displayName = (String) ar.getVariable("displayname");
+	email = (String) ar.getVariable("email");
+	service = ar.getService();
+	
+	if(imageURL == null) imageURL = "images/icons/" + ar.getService() + ".png";
+	if(displayName == null) displayName = "there";
+%>
+    <img class="profile center" src="<%=imageURL%>" width="50" height="50" border="0" /> Hi <%=displayName%>.  Thanks for logging in with your <%=AuthenticationServiceConfiguration.getInstance().getServiceName(ar.getService())%> account:
+  <% if(profileURL != null){ %>
+<a href="<%=profileURL%>"><%=ar.getServiceUserID()%></a>
+  <% } else { %>
+<%=ar.getServiceUserID()%>
+  <% } %>
+<% } else { %>
+Not logged in.  Pick a service from above!
+<% } %>
+    <br />
+    <br />
+
+<!-- Google+ Button: Add where you want your sign-in button to render -->
+<!-- 
 <div id="signinButton">
   <span class="g-signin"
     data-scope="https://www.googleapis.com/auth/plus.login"
@@ -183,24 +231,26 @@ if(ar != null && ar.hasServiceUserID()){
   </span>
 </div>
 <div id="result"></div>
-</div>
-</div>
+-->
+
+    </div>
+  </div>
 </div>
 
-
-
-<!-- Last part of BODY element in file index.html -->
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){ %>
+<!-- Google+ integration -->
+<!--
 <script type="text/javascript">
 function signInCallback(authResult) {
-  if (authResult['code']) {
-
+  if(authResult['code']){
     // Hide the sign-in button now that the user is authorized, for example:
     $('#signinButton').attr('style', 'display: none');
 
     // Send the code to the server
     $.ajax({
       type: 'POST',
-      url: '/authentication/callback?via=googleplus&code=' + authResult['code'],
+      url: '/authentication/validate/googleplus',
+      data: {code: authResult['code']},
 //      contentType: 'application/octet-stream; charset=utf-8',
       contentType: 'text/plain; charset=utf-8',
       success: function(result) {
@@ -226,5 +276,73 @@ function signInCallback(authResult) {
   }
 }
 </script>
-  </body>
+-->
+<% } %>
+
+<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("persona")){ %>
+<!-- Persona integration: https://developer.mozilla.org/en-US/docs/Persona/Quick_Setup -->
+<script src="https://login.persona.org/include.js"></script>
+<script type="text/javascript">
+var currentService = null;
+var currentUser = null;
+<% if(email != null){ %>currentUser = '<%=email%>';<% } %>
+<% if(service != null){ %>currentService = '<%=service%>';<% } %>
+
+var signinLink = $("button.signin.persona");
+if(signinLink){
+  signinLink.click(function(){
+    currentService = "persona";
+    navigator.id.request();
+    return false;
+  });
+}
+
+if(currentService == "persona"){
+var signoutLink = $("button.signout.persona");
+if(signoutLink){
+  signoutLink.click(function(){
+    navigator.id.logout();
+    return false;
+  });
+}
+}
+
+navigator.id.watch({
+  loggedInUser: currentUser,
+  onlogin: function(assertion) {
+	  if(currentService == "persona"){
+    // A user has logged in! Here you need to:
+    // 1. Send the assertion to your backend for verification and to create a session.
+    // 2. Update your UI.
+    $.ajax({
+      type: 'POST',
+      url: '/authentication/validate/persona',
+      data: {assertion: assertion},
+      success: function(res, status, xhr) { window.location.reload(); },
+      error: function(xhr, status, err) {
+        navigator.id.logout();
+        alert("Login failure: " + err);
+      }
+    });
+	  }
+  },
+
+  onlogout: function() {
+	  if(currentService == "persona"){
+    // A user has logged out! Here you need to:
+    // Tear down the user's session by redirecting the user or making a call to your backend.
+    // Also, make sure loggedInUser will get set to null on the next page load.
+    // (That's a literal JavaScript null. Not false, 0, or undefined. null.)
+    $.ajax({
+      type: 'POST',
+      url: '/authentication/logout/persona', // This is a URL on your website.
+      success: function(res, status, xhr) { window.location.reload(); },
+      error: function(xhr, status, err) { alert("Logout failure: " + err); }
+    });
+  }
+  }
+});
+</script>
+<% } %>
+</body>
 </html>

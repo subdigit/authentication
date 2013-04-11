@@ -19,9 +19,11 @@ import com.subdigit.utilities.ServletHelper;
  */
 @WebServlet(
 		description = "Authentication callback servlet.", 
-		urlPatterns = { 
+		urlPatterns = {
 			"/callback",
-			"/callback/*"
+			"/callback/*",
+			"/validate",
+			"/validate/*"
 		})
 public class CallbackServlet extends HttpServlet
 {

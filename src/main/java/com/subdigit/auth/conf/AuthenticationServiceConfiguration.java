@@ -1,9 +1,11 @@
 package com.subdigit.auth.conf;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -39,8 +41,8 @@ public class AuthenticationServiceConfiguration
 	private static AuthenticationServiceConfiguration _authenticationServiceConfiguration;
 
 
-	private List<String> _availableServices;
-	private HashMap<String,ServiceData> _services;
+	private List<String> _enabledServices;
+	private Map<String,ServiceData> _services;
 	
 	static {
 		_authenticationServiceConfiguration = new AuthenticationServiceConfiguration();
@@ -60,8 +62,8 @@ public class AuthenticationServiceConfiguration
 	{
 		CompositeConfiguration config = createPropertyReader();
 		
-		_availableServices = new ArrayList<String>();
-		_services = new HashMap<String,ServiceData>();
+		_enabledServices = new ArrayList<String>();
+		_services = new LinkedHashMap<String,ServiceData>();
 
 		config.setListDelimiter(',');
 		String[] loadableServices = config.getStringArray(PROPERTY_AVAILABLESERVICES);
@@ -73,7 +75,7 @@ public class AuthenticationServiceConfiguration
 				if(StringUtils.isBlank(serviceName)) continue;
 
 				serviceData.setEnabled(config.getBoolean(String.format(PROPERTY_SERVICE_ENABLED, serviceName)));
-				if(!serviceData.isEnabled()) continue;
+//				if(!serviceData.isEnabled()) continue;
 				serviceData.setName(config.getString(String.format(PROPERTY_SERVICE_NAME, serviceName)));
 				serviceData.setClassName(config.getString(String.format(PROPERTY_SERVICE_CLASSNAME, serviceName)));
 				if(serviceData.newInstance() == null) continue;
@@ -84,10 +86,8 @@ public class AuthenticationServiceConfiguration
 				serviceData.setStateCheck(config.getBoolean(String.format(PROPERTY_SERVICE_STATECHECK, serviceName)));
 
 				_services.put(serviceName, serviceData);
+				if(serviceData.isEnabled()) _enabledServices.add(serviceName);
 			}
-
-			// Now just remember the ones that we were able to actually load.
-			_availableServices.addAll(_services.keySet());
 		}
 	}
 
@@ -105,15 +105,17 @@ public class AuthenticationServiceConfiguration
 		return config;
 	}
 
-	public int getAvailableServicesCount(){ return (_availableServices == null)?0:_availableServices.size(); }
-	public List<String> getAvailableServices(){ return _availableServices; }
-
+	public int getEnabledServicesCount(){ return (_enabledServices == null)?0:_enabledServices.size(); }
+	public List<String> getEnabledServices(){ return _enabledServices; }
+	
 	public boolean getServiceEnabled(String service)
 	{
 		ServiceData serviceData = getServiceData(service);
 		if(serviceData != null) return serviceData.getEnabled();
 		else return DEFAULT_SERVICE_ENABLED;
 	}
+	public boolean isServiceEnabled(String service){ return getServiceEnabled(service); }
+
 	public String getServiceName(String service)
 	{
 		ServiceData serviceData = getServiceData(service);
