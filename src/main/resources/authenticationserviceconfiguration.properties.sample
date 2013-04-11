@@ -1,25 +1,48 @@
-asc.availableservices				= twitter, facebook, googleplus
+# List the services you will be defining in this file.  The name will become part of the property key
+asc.availableservices					= twitter, facebook, googleplus, persona
 
-asc.service.twitter.enabled			= false
-asc.service.twitter.name			= Twitter
-asc.service.twitter.classname		= com.subdigit.auth.service.TwitterAuthenticationService
-asc.service.twitter.appid			= [Insert Twitter Consumer key]
-asc.service.twitter.appsecret		= [Insert Twitter Consumer secret]
-asc.service.twitter.scope			=
-asc.service.twitter.statecheck		= false
+# Key definitions
+# enabled [boolean: false]: whether the service will be active or not.  true to use it, false to turn it off
+# name [string: none]: Display friend name for the service
+# classname [class: none]: Fully qualified classname that will handle the various validation routines
+# appid [string: none]: The application ID defined by the service.  Different services will call it different things.
+# appsecret [string: none]: The application secret defined by the service.  Different services will call it different things.
+# clienthandledlogin [boolean: false]: If you want to trigger the login directly on the page instead of through the backend, set this to true
+# scope [list: none]: A list of items to pass to the service.  Usually defined the scope of information requested
+# statecheck [boolean: false]: Adds a random parameter to the call to make sure the call isn't being spoofed and checks during the validation/callback phase.
 
-asc.service.facebook.enabled		= false
-asc.service.facebook.name			= Facebook
-asc.service.facebook.classname		= com.subdigit.auth.service.FacebookAuthenticationService
-asc.service.facebook.appid			= [Insert Facebook App ID]
-asc.service.facebook.appsecret		= [Insert Facebook App Secret]
-asc.service.facebook.scope			= publish_stream, email
-asc.service.facebook.statecheck		= true
+asc.service.twitter.enabled					= false
+asc.service.twitter.name					= Twitter
+asc.service.twitter.classname				= com.subdigit.auth.service.TwitterAuthenticationService
+asc.service.twitter.appid					= [Insert Twitter Consumer key]
+asc.service.twitter.appsecret				= [Insert Twitter Consumer secret]
+asc.service.twitter.clienthandledlogin		= false
+asc.service.twitter.scope					=
+asc.service.twitter.statecheck				= false
 
-asc.service.googleplus.enabled		= false
-asc.service.googleplus.name			= Google+
-asc.service.googleplus.classname	= com.subdigit.auth.service.GooglePlusAuthenticationService
-asc.service.googleplus.appid		= [Insert Google Client ID]
-asc.service.googleplus.appsecret	= [Insert Google Client secret]
-asc.service.googleplus.scope		= https://www.googleapis.com/auth/plus.login
-asc.service.googleplus.statecheck	= true
+asc.service.facebook.enabled				= false
+asc.service.facebook.name					= Facebook
+asc.service.facebook.classname				= com.subdigit.auth.service.FacebookAuthenticationService
+asc.service.facebook.appid					= [Insert Facebook App ID]
+asc.service.facebook.appsecret				= [Insert Facebook App Secret]
+asc.service.facebook.clienthandledlogin		= false
+asc.service.facebook.scope					= publish_stream, email
+asc.service.facebook.statecheck				= true
+
+asc.service.googleplus.enabled				= false
+asc.service.googleplus.name					= Google+
+asc.service.googleplus.classname			= com.subdigit.auth.service.GooglePlusAuthenticationService
+asc.service.googleplus.appid				= [Insert Google Client ID]
+asc.service.googleplus.appsecret			= [Insert Google Client secret]
+asc.service.googleplus.clienthandledlogin	= false
+asc.service.googleplus.scope				= https://www.googleapis.com/auth/plus.login
+asc.service.googleplus.statecheck			= true
+
+asc.service.persona.enabled					= true
+asc.service.persona.name					= Persona
+asc.service.persona.classname				= com.subdigit.auth.service.PersonaAuthenticationService
+asc.service.persona.appid					= 
+asc.service.persona.appsecret				= 
+asc.service.persona.clienthandledlogin		= true
+asc.service.persona.scope					= 
+asc.service.persona.statecheck				= true
