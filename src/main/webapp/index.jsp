@@ -1,10 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResults,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletHelper" %><!DOCTYPE html>
-<!-- The top of file index.html -->
 <html itemscope itemtype="http://schema.org/Article">
 <head>
-<!-- BEGIN Pre-requisites -->
+<!-- Persona requirement for IE compatibility -->
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){ %>
