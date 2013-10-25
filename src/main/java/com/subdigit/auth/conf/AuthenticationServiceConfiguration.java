@@ -69,11 +69,10 @@ public class AuthenticationServiceConfiguration
 
 		config.setListDelimiter(',');
 		String[] loadableServices = config.getStringArray(PROPERTY_AVAILABLESERVICES);
-
 		if(loadableServices != null && loadableServices.length > 0){
 			for(String serviceName : loadableServices){
 				ServiceData serviceData = new ServiceData();
-
+				
 				if(StringUtils.isBlank(serviceName)) continue;
 
 				serviceData.setEnabled(config.getBoolean(String.format(PROPERTY_SERVICE_ENABLED, serviceName)));
@@ -91,6 +90,9 @@ public class AuthenticationServiceConfiguration
 				_services.put(serviceName, serviceData);
 				if(serviceData.isEnabled()) _enabledServices.add(serviceName);
 			}
+System.err.println("Authentication Service: Available services: " + _enabledServices);
+		} else {
+System.err.println("Authentication Service: No services available");
 		}
 	}
 
@@ -203,7 +205,7 @@ public class AuthenticationServiceConfiguration
 			_clientHandledLogin = DEFAULT_SERVICE_CLIENTHANDLEDLOGIN;
 			_scope = DEFAULT_SERVICE_SCOPE;
 			_stateCheck = DEFAULT_SERVICE_STATECHECK;
-			
+
 			return true;
 		}
 
@@ -236,7 +238,10 @@ public class AuthenticationServiceConfiguration
 		{
 			try {
 				return (AuthenticationService) Class.forName(getClassName()).newInstance();
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e){
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e ){
+System.err.println("Something went wrong trying to instantiate " + getClassName() + ": " + e);
+			} catch (Throwable th){
+System.err.println("Something went horribly wrong trying to instantiate " + getClassName() + ": " + th);
 			}
 			
 			return null;

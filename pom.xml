@@ -45,15 +45,21 @@
     <javax.servlet-api.version>           3.0.1</javax.servlet-api.version>
     <twitter4j-core.version>              3.0.3</twitter4j-core.version>
     <commons-lang3.version>               3.1</commons-lang3.version>
+    <commons-configuration.version>       1.9</commons-configuration.version>
     <httpclient.version>                  4.3-alpha1</httpclient.version>
     <httpclient-cache.version>            4.3-alpha1</httpclient-cache.version>
-    <commons-configuration.version>       1.9</commons-configuration.version>
-    <google-api-client.version>           1.13.2-beta</google-api-client.version>
     <gson.version>                        2.2.2</gson.version>
     <guava.version>                       14.0</guava.version>
-    <google-http-client-jackson.version>  1.13.1-beta</google-http-client-jackson.version>
+    <google-api-client.version>           1.13.2-beta</google-api-client.version>
     <google-api-services-oauth2.version>  v2-rev30-1.13.2-beta</google-api-services-oauth2.version>
     <google-api-services-plus.version>    v1-rev58-1.13.2-beta</google-api-services-plus.version>
+    <google-http-client-jackson.version>  1.13.1-beta</google-http-client-jackson.version>
+<!--
+    <google-api-client.version>           1.4.1-beta</google-api-client.version>
+    <google-api-services-oauth2.version>  v2-rev51-1.17.0-rc</google-api-services-oauth2.version>
+    <google-api-services-plus.version>    v1-rev99-1.17.0-rc</google-api-services-plus.version>
+    <google-http-client-jackson.version>  1.70.0-rc</google-http-client-jackson.version>
+-->
   </properties>
 
   <repositories>
@@ -144,6 +150,15 @@
 
   <build>
     <finalName>authentication-${project.version}</finalName>
+	<resources>
+	  <resource>
+        <directory>src/main/resources</directory>
+	    <excludes>
+          <exclude>**/authenticationserviceconfiguration.properties</exclude>
+	    </excludes>      
+	  </resource>
+	</resources>
+    
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -173,16 +188,16 @@
           <source>${jdk.version}</source>
           <target>${jdk.version}</target>
           <encoding>UTF-8</encoding>
-         </configuration>
-     </plugin>
-     <plugin>
-       <groupId>org.apache.tomcat.maven</groupId>
-       <artifactId>tomcat7-maven-plugin</artifactId>
-       <version>2.0</version>
-       <configuration>
-         <url>http://localhost:8080/manager</url>
-       </configuration>
-     </plugin>
-   </plugins>
- </build>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.0</version>
+        <configuration>
+          <url>http://localhost:8080/manager</url>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
