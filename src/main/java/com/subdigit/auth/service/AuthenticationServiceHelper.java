@@ -1,15 +1,13 @@
 package com.subdigit.auth.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.subdigit.auth.AuthenticationResults;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
+import com.subdigit.utilities.RequestResponseBroker;
 
 
 public class AuthenticationServiceHelper
 {
-	public static AuthenticationService getAuthenticationService(String service, HttpServletRequest request, HttpServletResponse response) throws IllegalArgumentException
+	public static AuthenticationService getAuthenticationService(String service, RequestResponseBroker<?,?> broker) throws IllegalArgumentException
 	{
 		AuthenticationService as = null;
 
@@ -19,7 +17,7 @@ public class AuthenticationServiceHelper
 		
 		if(as == null) throw new IllegalArgumentException("Service: " + service + " could not be instantiated.");
 
-		as.initialize(request, response);
+		as.initialize(broker);
 
 		return as;
 	}

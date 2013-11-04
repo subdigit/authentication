@@ -1,6 +1,5 @@
 package com.subdigit.auth.service;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,21 +8,22 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.subdigit.auth.AuthenticationResults;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.HttpConnectionHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 public class FacebookAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "facebook";
 
 	public FacebookAuthenticationService(){ super(); }
-	public FacebookAuthenticationService(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
+	public FacebookAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getLoginRedirectURL(String state)
 	{
 		return "https://www.facebook.com/dialog/oauth?" +
 				"client_id=" + getServiceApplicationID() +
-				"&redirect_uri=" + ServletHelper.encode(getCallbackURL()) +
+				"&redirect_uri=" + HttpConnectionHelper.encode(getCallbackURL()) +
 				"&" + getStateCheckParameter() + "=" + state +
 				"&scope=email,publish_stream";
 	}
@@ -33,7 +33,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 	{
 		return "https://graph.facebook.com/oauth/access_token?" +
 				"client_id=" + getServiceApplicationID() +
-				"&redirect_uri=" + ServletHelper.encode(getCallbackURL()) +
+				"&redirect_uri=" + HttpConnectionHelper.encode(getCallbackURL()) +
 				"&client_secret=" + getServiceApplicationSecret() +
 				"&code=" + authenticationCode;
 	}
@@ -64,7 +64,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 	{
 		String token = null;
 		
-		token = ServletHelper.getBasicResponse(getAuthenticationURL(authenticationCode));
+		token = HttpConnectionHelper.getBasicResponse(getAuthenticationURL(authenticationCode));
 		token = StringUtils.removeEnd(
 					StringUtils.removeStart(token, "access_token="),
 					"&expires=5180795");
@@ -79,7 +79,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 		String authenticationCode = null;
 		String accessToken = null;
 
-		authenticationCode = _request.getParameter("code");
+		authenticationCode = _broker.getParameter("code");
 
 		// If there was an error in the token info, abort.
 		if(StringUtils.isBlank(authenticationCode)){
@@ -111,7 +111,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 
 	private boolean getFacebookData(String accessToken, AuthenticationResults ar)
 	{
-		String responseBody = ServletHelper.getBasicResponse(getDataURL(accessToken));
+		String responseBody = HttpConnectionHelper.getBasicResponse(getDataURL(accessToken));
 
 		if(StringUtils.isBlank(responseBody)) return false;
 		
@@ -144,9 +144,9 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 		// The primary key we need to index against the user in the local data store.
 		ar.setServiceUserID(facebookId);
 
-		ar.addVariable("profileurl", link);
-		ar.addVariable("imageurl", "https://graph.facebook.com/" + userName + "/picture");
-		ar.addVariable("displayname", fullName);
+		ar.addVariable(KEY_PROFILEURL, link);
+		ar.addVariable(KEY_IMAGEURL, "https://graph.facebook.com/" + userName + "/picture");
+		ar.addVariable(KEY_DISPLAYNAME, fullName);
 		
 		ar.addVariable("userName", userName);
 		ar.addVariable("firstname", firstName);

@@ -1,6 +1,5 @@
 package com.subdigit.auth.service;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,14 +11,15 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.subdigit.auth.AuthenticationResults;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.HttpConnectionHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 public class PersonaAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "persona";
 
 	public PersonaAuthenticationService(){ super(); }
-	public PersonaAuthenticationService(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
+	public PersonaAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getDataURL(String assertion)
@@ -46,7 +46,7 @@ public class PersonaAuthenticationService extends AbstractAuthenticationService
 		boolean success = false;
 		String assertion = null;
 
-		assertion = _request.getParameter("assertion");
+		assertion = _broker.getParameter("assertion");
 System.err.println("Fetching Assertion: " + assertion);
 
 		// If there was an error in the token info, abort.
@@ -77,7 +77,7 @@ System.err.println("Fetching Assertion: " + assertion);
 		parameters.put("assertion", assertion);
 		parameters.put("audience", _ac.getApplicationURL());
 
-		responseBody = ServletHelper.postBasicResponse(getDataURL(assertion), parameters);
+		responseBody = HttpConnectionHelper.postBasicResponse(getDataURL(assertion), parameters);
 		
 		if(StringUtils.isBlank(responseBody)) return false;
 

@@ -9,38 +9,36 @@ import javax.servlet.http.HttpServletResponse;
 import com.subdigit.auth.AuthenticationResults;
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 public abstract class AbstractAuthenticationService implements AuthenticationService
 {
-	protected HttpServletRequest _request;
-	protected HttpServletResponse _response;
+	protected RequestResponseBroker<?,?> _broker;
 	protected AuthenticationConfiguration _ac;
 	protected AuthenticationServiceConfiguration _asc;
 
 
 	public AbstractAuthenticationService()
 	{
-		initialize(null, null);
+		initialize(null);
 	}
 
 
-	public AbstractAuthenticationService(HttpServletRequest request, HttpServletResponse response)
+	public AbstractAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker)
 	{
-		initialize(request, response);
+		initialize(broker);
 	}
 
 	
-	public boolean initialize(HttpServletRequest request, HttpServletResponse response)
+	public boolean initialize(RequestResponseBroker<?,?> broker)
 	{
 		boolean success = false;
 
-		_request = request;
-		_response = response;
+		_broker = broker;
 		_ac = AuthenticationConfiguration.getInstance();
 		_asc = AuthenticationServiceConfiguration.getInstance();
 		
-		if(_request != null && _response != null) success = true;
+		if(_broker != null && _broker.initialized()) success = true;
 
 		return success;
 	}
@@ -54,7 +52,7 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 
 		if(enforceStateCheck()){
 			String state = new BigInteger(130, new SecureRandom()).toString(32);
-			ServletHelper.setAttribute(getStateCheckParameter(), state, _request);
+			_broker.setAttribute(getStateCheckParameter(), state);
 			ar.setState(state);
 		}
 		
@@ -69,10 +67,10 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 		AuthenticationResults ar = newAuthenticationResults();
 
 		if(enforceStateCheck()){
-			String state = _request.getParameter(getStateCheckParameter());
+			String state = _broker.getParameter(getStateCheckParameter());
 
 			// Make sure we are talking about the same request.
-			if(state != null && !state.equals(ServletHelper.getAttributeString(getStateCheckParameter(), _request))){
+			if(state != null && !state.equals(_broker.getAttributeString(getStateCheckParameter()))){
 				ar.addStatus(401, "State mismatch.  Man in the middle attack?");
 				return ar;
 			}

@@ -1,56 +1,169 @@
 package com.subdigit.auth;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.service.AuthenticationService;
 import com.subdigit.auth.service.AuthenticationServiceHelper;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 public class AuthenticationHelper
 {
-	protected HttpServletRequest _request;
-	protected HttpServletResponse _response;
+	protected RequestResponseBroker<?,?> _broker;
 	protected AuthenticationConfiguration _ac;
 
 
-	public AuthenticationHelper(HttpServletRequest request, HttpServletResponse response)
+	public AuthenticationHelper(RequestResponseBroker<?,?> broker)
 	{
-		initialize(request, response);
+		initialize(broker);
 	}
 
 	
-	public boolean initialize(HttpServletRequest request, HttpServletResponse response)
+	public boolean initialize(RequestResponseBroker<?,?> broker)
 	{
 		boolean success = false;
 
-		_request = request;
-		_response = response;
+		_broker = broker;
 		_ac = AuthenticationConfiguration.getInstance();
 
-		if(_request != null && _response != null) success = true;
+		if(_broker != null && _broker.initialized()) success = true;
 
 		return success;
 	}
 
 
-	public AuthenticationResults connect() throws ServletException { return connect(extractService()); }
-	public AuthenticationResults connect(String service) throws ServletException { return service(Request.CONNECT, service); }
-
-	public AuthenticationResults validate() throws ServletException { return validate(extractService()); }
-	public AuthenticationResults validate(String service) throws ServletException { return service(Request.VALIDATE, service); }
-
-	public AuthenticationResults disconnect() throws ServletException { return disconnect(extractService()); }
-	public AuthenticationResults disconnect(String service) throws ServletException { return service(Request.DISCONNECT, service); }
-
-	protected AuthenticationResults service(Request request) throws ServletException { return service(request, _request.getParameter(_ac.getParameterVia())); }
-	protected AuthenticationResults service(Request request, String service) throws ServletException
+	public AuthenticationResults processResults(AuthenticationResults ar)
 	{
-		AuthenticationService authService = AuthenticationServiceHelper.getAuthenticationService(service, _request, _response);
+		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
+		if(ar == null || !ar.success()){
+System.err.println(ar.printDiagnostics());
+			return ar;
+		}
+
+		if(ar.hasRedirectURL()){
+			_broker.redirect(ar.getRedirectURL());
+		} else {
+			_broker.redirect(AuthenticationConfiguration.getInstance().getApplicationURL());
+		}
+
+System.err.println(ar.printDiagnostics());
+		return ar;
+	}
+
+
+	public AuthenticationResults handleLogin()
+	{
+		AuthenticationResults ar = null;
+
+		// Ask the AuthenticationHelper to start the connection process.
+		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
+		ar = connect();
+
+		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
+		if(ar == null || !ar.success()){
+System.err.println(ar.printDiagnostics());
+			return ar;
+		}
+
+		if(ar.hasRedirectURL()){
+			_broker.redirect(ar.getRedirectURL());
+		} else {
+			_broker.redirect(AuthenticationConfiguration.getInstance().getApplicationURL());
+		}
+
+System.err.println(ar.printDiagnostics());
+		return ar;
+	}
+
+
+	public AuthenticationResults handleLogout()
+	{
+		AuthenticationResults ar = null;
+		
+		// Ask the AuthenticationHelper to logout the user.
+		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
+		ar = disconnect();
+
+		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
+		if(ar == null || !ar.success()){
+System.err.println(ar.printDiagnostics());
+			return ar;
+		}
+
+		if(ar.hasRedirectURL()){
+			_broker.redirect(ar.getRedirectURL());
+		} else {
+			_broker.redirect(AuthenticationConfiguration.getInstance().getApplicationURL());
+		}
+
+System.err.println(ar.printDiagnostics());
+		return ar;
+	}
+
+
+	public AuthenticationResults handleCallback()
+	{
+		AuthenticationResults ar = null;
+
+		// Ask the AuthenticationHelper to validate the login that just occurred.
+		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
+		ar = validate();
+
+		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
+		if(ar == null || !ar.success()){
+System.err.println(ar.printDiagnostics());
+			return ar;
+		}
+
+		if(ar.hasRedirectURL()){
+			_broker.redirect(ar.getRedirectURL());
+		} else {
+			_broker.redirect(AuthenticationConfiguration.getInstance().getApplicationURL());
+		}
+
+System.err.println(ar.printDiagnostics());
+		return ar;
+	}
+	
+	
+	public AuthenticationResults handleDisconnect()
+	{
+		AuthenticationResults ar = null;
+		
+		// Ask the AuthenticationHelper to disconnect the service.
+		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
+		ar = disconnect();
+
+		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
+		if(ar == null || !ar.success()){
+System.err.println(ar.printDiagnostics());
+			return ar;
+		}
+
+		if(ar.hasRedirectURL()){
+			_broker.redirect(ar.getRedirectURL());
+		} else {
+			_broker.redirect(AuthenticationConfiguration.getInstance().getApplicationURL());
+		}
+
+System.err.println(ar.printDiagnostics());
+		return ar;
+	}
+
+
+	public AuthenticationResults connect(){ return connect(extractService()); }
+	public AuthenticationResults connect(String service){ return service(Request.CONNECT, service); }
+
+	public AuthenticationResults validate(){ return validate(extractService()); }
+	public AuthenticationResults validate(String service){ return service(Request.VALIDATE, service); }
+
+	public AuthenticationResults disconnect(){ return disconnect(extractService()); }
+	public AuthenticationResults disconnect(String service){ return service(Request.DISCONNECT, service); }
+
+	protected AuthenticationResults service(Request request){ return service(request, _broker.getParameter(_ac.getParameterVia())); }
+	protected AuthenticationResults service(Request request, String service)
+	{
+		AuthenticationService authService = AuthenticationServiceHelper.getAuthenticationService(service, _broker);
 		AuthenticationResults authResults = AuthenticationServiceHelper.newAuthenticationResults(service);
 
 		if(authService != null){
@@ -74,7 +187,7 @@ public class AuthenticationHelper
 		} else authResults.addStatus(404, "Authentication service '" + service + "' not found");
 
 		// Save the results for use outside of this scope.
-		ServletHelper.setAttribute(_ac.getAttributeResults(), authResults, _request);
+		_broker.setAttribute(_ac.getAttributeResults(), authResults);
 
 		return authResults;
 	}
@@ -85,9 +198,19 @@ public class AuthenticationHelper
 		String service = null;
 
 		if(_ac.isApplicationRestStyleEndpoint()){
-			service = StringUtils.substringBefore(StringUtils.substringAfter(_request.getPathInfo(), "/"), "/");
+			service = _broker.getPathInfo();
+
+			if(_ac.getApplicationRoot() != null){
+				service = StringUtils.substringAfter(service, _ac.getApplicationRoot());
+			}
+			
+			service = StringUtils.substringBefore(
+				StringUtils.substringAfter(
+					StringUtils.substringAfter(service, "/")
+				, "/")
+			, "/");
 		} else {
-			service = _request.getParameter(_ac.getParameterVia());
+			service = _broker.getParameter(_ac.getParameterVia());
 		}
 
 		return service;

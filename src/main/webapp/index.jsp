@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResults,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletHelper" %><!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResults,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletRequestResponseBroker" %><!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
 <!-- Persona requirement for IE compatibility -->
@@ -187,7 +187,8 @@ Just a quick experiment with 3rd party authentications.  The system will redirec
 
     <br />
 <%
-AuthenticationResults ar = (AuthenticationResults) ServletHelper.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults(), request);
+ServletRequestResponseBroker broker = new ServletRequestResponseBroker(request, response); 
+AuthenticationResults ar = (AuthenticationResults) broker.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults());
 String profileURL = null;
 String imageURL = null;
 String displayName = null;

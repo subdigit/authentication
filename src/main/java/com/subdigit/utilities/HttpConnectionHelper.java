@@ -1,6 +1,5 @@
 package com.subdigit.utilities;
 
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -8,9 +7,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ResponseHandler;
@@ -23,31 +19,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 
-public class ServletHelper
+public class HttpConnectionHelper
 {
-	private ServletHelper(){}
-
-
-	public static String getAttributeString(String key, HttpServletRequest request){ return (String) getAttribute(key, request); }
-	public static Object getAttribute(String key, HttpServletRequest request)
-	{
-		if(request == null) return null;
-		else return request.getSession().getAttribute(key);
-	}
-
-
-	public static void setAttribute(String key, Object value, HttpServletRequest request)
-	{
-		if(request == null) return;
-		request.getSession().setAttribute(key, value);
-	}
-
-
-	public static void removeAttribute(String key, HttpServletRequest request)
-	{
-		if(request == null) return;
-		request.getSession().removeAttribute(key);
-	}
+	private HttpConnectionHelper(){}
 
 
 	public static String getBasicResponse(String url)
@@ -130,21 +104,6 @@ public class ServletHelper
 
         return responseBody;
     }
-
-
-	public static boolean redirect(String url, HttpServletResponse response)
-	{
-		if(url == null || url.trim().length() == 0) return false;
-
-		try {
-			response.sendRedirect(url);
-			return true;
-		} catch(IOException e){
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
 
 
 	public static String encode(String value){ return encode(value, "UTF-8"); }

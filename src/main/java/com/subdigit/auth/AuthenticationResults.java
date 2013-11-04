@@ -38,6 +38,8 @@ public class AuthenticationResults extends BasicResults
 
 	protected void reset()
 	{
+		super.reset();
+
 		_service = null;
 		_serviceUserID = null;
 		_redirectURL = null;

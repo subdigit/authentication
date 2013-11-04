@@ -150,16 +150,55 @@
 
   <build>
     <finalName>authentication-${project.version}</finalName>
-	<resources>
-	  <resource>
-        <directory>src/main/resources</directory>
-	    <excludes>
-          <exclude>**/authenticationserviceconfiguration.properties</exclude>
-	    </excludes>      
-	  </resource>
-	</resources>
-    
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <id>package-consumer</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+<!-- http://stackoverflow.com/questions/17557041/maven-jar-plugin-exclusions-failing -->
+              <!-- classifier>consumer</classifier -->
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <filtering>true</filtering>
+                  <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include> 
+                  </includes>
+                </resource>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <filtering>false</filtering>
+                  <excludes>
+                    <exclude>**/*.xml</exclude>
+                    <exclude>**/*.properties</exclude>  
+                  </excludes>
+                </resource>
+              </resources>
+              <excludes>
+                <exclude>**/*.bmp</exclude>
+                <exclude>**/*.jpg</exclude>
+                <exclude>**/*.jpeg</exclude>
+                <exclude>**/*.gif</exclude>
+                <exclude>**/*.xml</exclude>
+                <exclude>**/*.sql</exclude>
+                <exclude>**/*.log4j</exclude>
+                <exclude>**/*.properties</exclude>
+                <exclude>**/*.sh</exclude>
+               </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -180,6 +219,7 @@
           </webResources>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -190,6 +230,7 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.tomcat.maven</groupId>
         <artifactId>tomcat7-maven-plugin</artifactId>

@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.subdigit.auth.AuthenticationHelper;
-import com.subdigit.auth.AuthenticationResults;
-import com.subdigit.auth.conf.AuthenticationConfiguration;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.ServletRequestResponseBroker;
 
 /**
  * Servlet implementation class LoginServlet
@@ -52,25 +50,7 @@ public class LoginServlet extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-		AuthenticationResults ar = null;
-		AuthenticationHelper ah = new AuthenticationHelper(request, response);
-
-		// Ask the AuthenticationHelper to start the connection process.
-		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
-		ar = ah.connect();
-
-		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
-		if(ar == null || !ar.success()){
-System.err.println(ar.printDiagnostics());
-			throw(new ServletException());
-		}
-
-		if(ar.hasRedirectURL()){
-			ServletHelper.redirect(ar.getRedirectURL(), response);
-		} else {
-			ServletHelper.redirect(AuthenticationConfiguration.getInstance().getApplicationURL(), response);
-		}
-
-System.err.println(ar.printDiagnostics());
+		AuthenticationHelper ah = new AuthenticationHelper(new ServletRequestResponseBroker(request, response));
+		ah.handleLogin();
 	}
 }

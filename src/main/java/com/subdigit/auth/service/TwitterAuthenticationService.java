@@ -1,6 +1,5 @@
 package com.subdigit.auth.service;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,14 +11,14 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import com.subdigit.auth.AuthenticationResults;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 public class TwitterAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "twitter";
 
 	public TwitterAuthenticationService(){ super(); }
-	public TwitterAuthenticationService(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
+	public TwitterAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	@Override
@@ -32,7 +31,7 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(getServiceApplicationID(), getServiceApplicationSecret());
 
-		ServletHelper.setAttribute("twitter", twitter, _request);
+		_broker.setAttribute("twitter", twitter);
 
         try {
         	RequestToken requestToken = twitter.getOAuthRequestToken(getCallbackURL());
@@ -42,7 +41,7 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
                 return ar;
         	}
 
-        	ServletHelper.setAttribute("requestToken", requestToken, _request);
+        	_broker.setAttribute("requestToken", requestToken);
  
         	ar.addStatus(200, "Redirected to authentication URL: " + requestToken.getAuthenticationURL());
             ar.setRedirectURL(requestToken.getAuthenticationURL());
@@ -60,14 +59,14 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 	@Override
 	protected AuthenticationResults validateService(AuthenticationResults ar)
 	{
-		Twitter twitter = (Twitter) ServletHelper.getAttribute("twitter", _request);
+		Twitter twitter = (Twitter) _broker.getAttribute("twitter");
 		User user = null;
-		RequestToken requestToken = (RequestToken) ServletHelper.getAttribute("requestToken", _request);
-		String verifier = _request.getParameter("oauth_verifier");
+		RequestToken requestToken = (RequestToken) _broker.getAttribute("requestToken");
+		String verifier = _broker.getParameter("oauth_verifier");
 
 		try {
 			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, verifier);
-			ServletHelper.removeAttribute("requestToken", _request);
+			_broker.removeAttribute("requestToken");
 
 			// Make sure the token was created properly
 			if(accessToken == null){
@@ -82,9 +81,9 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 
 			// The primary key we need to index against the user in the local data store.
 			ar.setServiceUserID("" + user.getId());
-			ar.addVariable("profileurl", user.getURL());
-			ar.addVariable("imageurl", user.getProfileImageURL());
-			ar.addVariable("displayname", user.getName());
+			ar.addVariable(KEY_PROFILEURL, user.getURL());
+			ar.addVariable(KEY_IMAGEURL, user.getProfileImageURL());
+			ar.addVariable(KEY_DISPLAYNAME, user.getName());
 
 			ar.addVariable("screenname", user.getScreenName());
 			ar.addVariable("token", accessToken.getToken());

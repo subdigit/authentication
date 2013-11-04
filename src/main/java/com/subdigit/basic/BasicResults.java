@@ -28,7 +28,7 @@ public class BasicResults
 	}
 
 	
-	public boolean initialize()
+	public final boolean initialize()
 	{
 		reset();
 		
@@ -41,7 +41,7 @@ public class BasicResults
 		_success = false;
 		_returnData = null;
 		_statusArchive = initializeStatusArchive();
-		_dataStore = new HashMap<String, Object>();
+		_dataStore = initializeDataStore();
 	}
 
 	
@@ -49,6 +49,12 @@ public class BasicResults
 	{
 		return new LinkedList<Status>();
 	}
+	
+	private HashMap<String, Object> initializeDataStore()
+	{
+		return new HashMap<String, Object>();
+	}
+
 	
 	public boolean isInitialized(){ return _initialized; }
 

@@ -1,6 +1,5 @@
 package com.subdigit.auth.service;
 
-
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,8 @@ import com.google.api.services.oauth2.model.Tokeninfo;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.subdigit.auth.AuthenticationResults;
-import com.subdigit.utilities.ServletHelper;
+import com.subdigit.utilities.HttpConnectionHelper;
+import com.subdigit.utilities.RequestResponseBroker;
 
 
 public class GooglePlusAuthenticationService extends AbstractAuthenticationService
@@ -41,7 +41,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 
 
 	public GooglePlusAuthenticationService(){ super(); }
-	public GooglePlusAuthenticationService(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
+	public GooglePlusAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getLoginRedirectURL(String state)
@@ -50,7 +50,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 		return "https://accounts.google.com/o/oauth2/auth?" +
 			"response_type=code" +
 			"&client_id=" + getServiceApplicationID() +
-			"&redirect_uri=" + ServletHelper.encode(getCallbackURL()) +
+			"&redirect_uri=" + HttpConnectionHelper.encode(getCallbackURL()) +
 			"&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.login" +
 			"&" + getStateCheckParameter() + "=" + state +
 			"&access_type=offline" +
@@ -101,8 +101,8 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 		Tokeninfo accessToken = null;
 		Person person = null;
 
-		authenticationCode = _request.getParameter("code");
-		gPlusID = _request.getParameter("gplus_id");
+		authenticationCode = _broker.getParameter("code");
+		gPlusID = _broker.getParameter("gplus_id");
 
 		// If there was an error in the token info, abort.
 		if(StringUtils.isBlank(authenticationCode)){
@@ -154,8 +154,8 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 			}
 
 			// Store the token in the session for later use.
-			ServletHelper.setAttribute("token", tokenResponse.toString(), _request);
-			
+			_broker.setAttribute("token", tokenResponse.toString());
+
 		} catch (TokenResponseException e) {
 			ar.addStatus(500, "Failed to upgrade the authorization code.", e);
             return ar;
@@ -181,9 +181,9 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 		ar.setServiceUserID(person.getId());
 
 		// Some additional information about the person.
-		ar.addVariable("profileurl", person.getUrl());
-		ar.addVariable("imageurl", person.getImage().getUrl());
-		ar.addVariable("displayname", person.getDisplayName());
+		ar.addVariable(KEY_PROFILEURL, person.getUrl());
+		ar.addVariable(KEY_IMAGEURL, person.getImage().getUrl());
+		ar.addVariable(KEY_DISPLAYNAME, person.getDisplayName());
 
 		// Store any returned object we want to parse later.
 		ar.setReturnData(person);
@@ -202,7 +202,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 
 		try {
 			// Only disconnect a connected user.
-			tokenData = ServletHelper.getAttributeString("token", _request);
+			tokenData = _broker.getAttributeString("token");
 
 			if(StringUtils.isBlank(tokenData)){
 				ar.addStatus(401, "Current user not connected.");
@@ -227,7 +227,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 			}
 
 			// Reset the user's session.
-			ServletHelper.removeAttribute("token", _request);
+			_broker.removeAttribute("token");
 			ar.addStatus(200, "Successfully disconnected");
 			ar.setSuccess(true);
 
