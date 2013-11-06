@@ -1,16 +1,16 @@
 package com.subdigit.auth;
 
-import com.subdigit.basic.BasicResults;
+import com.subdigit.basic.BasicResult;
 
 
-public class AuthenticationResults extends BasicResults
+public class AuthenticationResult extends BasicResult
 {
 	String _service;
 	String _serviceUserID;
 	String _redirectURL;
 	String _state;
 
-	public AuthenticationResults(String service)
+	public AuthenticationResult(String service)
 	{
 		// Do the parent class stuff
 		super();

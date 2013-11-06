@@ -1,6 +1,6 @@
 package com.subdigit.auth.service;
 
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
 import com.subdigit.utilities.RequestResponseBroker;
 
@@ -23,8 +23,8 @@ public class AuthenticationServiceHelper
 	}
 
 
-	public static AuthenticationResults newAuthenticationResults(String service)
+	public static AuthenticationResult newAuthenticationResults(String service)
 	{
-		return new AuthenticationResults(service);
+		return new AuthenticationResult(service);
 	}
 }

@@ -20,7 +20,7 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Tokeninfo;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 import com.subdigit.utilities.RequestResponseBroker;
 
@@ -75,7 +75,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 
 
     @Override
-	protected AuthenticationResults connectService(AuthenticationResults ar)
+	protected AuthenticationResult connectService(AuthenticationResult ar)
 	{
 		ar.addStatus(200, "Redirecting to the authentication service for: " + getIdentifier());
 		ar.setRedirectURL(getLoginRedirectURL(ar.getState()));
@@ -86,7 +86,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 
 	
 	@Override
-	protected AuthenticationResults validateService(AuthenticationResults ar)
+	protected AuthenticationResult validateService(AuthenticationResult ar)
 	{
 /*
  		Returned parameters:
@@ -196,7 +196,7 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 
 
 	@Override
-	protected AuthenticationResults disconnectService(AuthenticationResults ar)
+	protected AuthenticationResult disconnectService(AuthenticationResult ar)
 	{
 		String tokenData = null;
 

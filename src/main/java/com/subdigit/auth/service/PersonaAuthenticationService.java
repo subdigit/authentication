@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 import com.subdigit.utilities.RequestResponseBroker;
 
@@ -33,7 +33,7 @@ public class PersonaAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults connectService(AuthenticationResults ar)
+	protected AuthenticationResult connectService(AuthenticationResult ar)
 	{
 		ar.setSuccess(true);
 		return ar;
@@ -41,7 +41,7 @@ public class PersonaAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults validateService(AuthenticationResults ar)
+	protected AuthenticationResult validateService(AuthenticationResult ar)
 	{
 		boolean success = false;
 		String assertion = null;
@@ -69,7 +69,7 @@ System.err.println("Fetching Assertion: " + assertion);
 	}
 
 
-	private boolean getPersonaData(String assertion, AuthenticationResults ar)
+	private boolean getPersonaData(String assertion, AuthenticationResult ar)
 	{
 		Map<String, String> parameters = new HashMap<String, String>();				
 		String responseBody = null;
@@ -115,7 +115,7 @@ System.err.println("Fetching Assertion: " + assertion);
 
     
 	@Override
-	protected AuthenticationResults disconnectService(AuthenticationResults ar)
+	protected AuthenticationResult disconnectService(AuthenticationResult ar)
 	{
 		ar.addStatus(200, "Successfully disconnected");
 		ar.setSuccess(true);

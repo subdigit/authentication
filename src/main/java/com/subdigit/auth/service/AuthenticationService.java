@@ -1,6 +1,6 @@
 package com.subdigit.auth.service;
 
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.utilities.RequestResponseBroker;
 
 public interface AuthenticationService
@@ -11,7 +11,7 @@ public interface AuthenticationService
 
 	public boolean initialize(RequestResponseBroker<?,?> broker);
 
-	public AuthenticationResults connect();
-	public AuthenticationResults validate();
-	public AuthenticationResults disconnect();
+	public AuthenticationResult connect();
+	public AuthenticationResult validate();
+	public AuthenticationResult disconnect();
 }

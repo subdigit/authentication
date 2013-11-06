@@ -10,7 +10,7 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.utilities.RequestResponseBroker;
 
 public class TwitterAuthenticationService extends AbstractAuthenticationService
@@ -26,7 +26,7 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults connectService(AuthenticationResults ar)
+	protected AuthenticationResult connectService(AuthenticationResult ar)
 	{
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(getServiceApplicationID(), getServiceApplicationSecret());
@@ -57,7 +57,7 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults validateService(AuthenticationResults ar)
+	protected AuthenticationResult validateService(AuthenticationResult ar)
 	{
 		Twitter twitter = (Twitter) _broker.getAttribute("twitter");
 		User user = null;
@@ -129,7 +129,7 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults disconnectService(AuthenticationResults ar)
+	protected AuthenticationResult disconnectService(AuthenticationResult ar)
 	{
 		ar.addStatus(200, "Successfully disconnected");
 		ar.setSuccess(true);

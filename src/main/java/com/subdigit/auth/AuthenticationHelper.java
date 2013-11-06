@@ -32,7 +32,7 @@ public class AuthenticationHelper
 	}
 
 
-	public AuthenticationResults processResults(AuthenticationResults ar)
+	public AuthenticationResult processResults(AuthenticationResult ar)
 	{
 		// Were we successful in initiating the request.  This is not about _completing_, just initiating.
 		if(ar == null || !ar.success()){
@@ -51,9 +51,9 @@ System.err.println(ar.printDiagnostics());
 	}
 
 
-	public AuthenticationResults handleLogin()
+	public AuthenticationResult handleLogin()
 	{
-		AuthenticationResults ar = null;
+		AuthenticationResult ar = null;
 
 		// Ask the AuthenticationHelper to start the connection process.
 		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
@@ -76,9 +76,9 @@ System.err.println(ar.printDiagnostics());
 	}
 
 
-	public AuthenticationResults handleLogout()
+	public AuthenticationResult handleLogout()
 	{
-		AuthenticationResults ar = null;
+		AuthenticationResult ar = null;
 		
 		// Ask the AuthenticationHelper to logout the user.
 		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
@@ -101,9 +101,9 @@ System.err.println(ar.printDiagnostics());
 	}
 
 
-	public AuthenticationResults handleCallback()
+	public AuthenticationResult handleCallback()
 	{
-		AuthenticationResults ar = null;
+		AuthenticationResult ar = null;
 
 		// Ask the AuthenticationHelper to validate the login that just occurred.
 		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
@@ -126,9 +126,9 @@ System.err.println(ar.printDiagnostics());
 	}
 	
 	
-	public AuthenticationResults handleDisconnect()
+	public AuthenticationResult handleDisconnect()
 	{
-		AuthenticationResults ar = null;
+		AuthenticationResult ar = null;
 		
 		// Ask the AuthenticationHelper to disconnect the service.
 		// If something went wrong, check the codes in the AuthentcationResults to figure out what to do.
@@ -151,20 +151,20 @@ System.err.println(ar.printDiagnostics());
 	}
 
 
-	public AuthenticationResults connect(){ return connect(extractService()); }
-	public AuthenticationResults connect(String service){ return service(Request.CONNECT, service); }
+	public AuthenticationResult connect(){ return connect(extractService()); }
+	public AuthenticationResult connect(String service){ return service(Request.CONNECT, service); }
 
-	public AuthenticationResults validate(){ return validate(extractService()); }
-	public AuthenticationResults validate(String service){ return service(Request.VALIDATE, service); }
+	public AuthenticationResult validate(){ return validate(extractService()); }
+	public AuthenticationResult validate(String service){ return service(Request.VALIDATE, service); }
 
-	public AuthenticationResults disconnect(){ return disconnect(extractService()); }
-	public AuthenticationResults disconnect(String service){ return service(Request.DISCONNECT, service); }
+	public AuthenticationResult disconnect(){ return disconnect(extractService()); }
+	public AuthenticationResult disconnect(String service){ return service(Request.DISCONNECT, service); }
 
-	protected AuthenticationResults service(Request request){ return service(request, _broker.getParameter(_ac.getParameterVia())); }
-	protected AuthenticationResults service(Request request, String service)
+	protected AuthenticationResult service(Request request){ return service(request, _broker.getParameter(_ac.getParameterVia())); }
+	protected AuthenticationResult service(Request request, String service)
 	{
 		AuthenticationService authService = AuthenticationServiceHelper.getAuthenticationService(service, _broker);
-		AuthenticationResults authResults = AuthenticationServiceHelper.newAuthenticationResults(service);
+		AuthenticationResult authResults = AuthenticationServiceHelper.newAuthenticationResults(service);
 
 		if(authService != null){
 			switch(request){

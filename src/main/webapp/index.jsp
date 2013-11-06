@@ -1,11 +1,13 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResults,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletRequestResponseBroker" %><!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResult,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletRequestResponseBroker" %><!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
 <!-- Persona requirement for IE compatibility -->
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){ %>
+<%
+	if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){
+%>
   <script type="text/javascript">
     // Facebook beautification fix
     // http://stackoverflow.com/a/10068176/223362
@@ -17,10 +19,14 @@
   	  }
   	});
     </script>
-<% } %>
+<%
+	}
+%>
 
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){ %>
+<%
+	if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){
+%>
 <!--
   <script type="text/javascript">
     (function () {
@@ -33,7 +39,9 @@
     })();
   </script>
 -->
-<% } %>
+<%
+	}
+%>
   
   <style>
 .container {
@@ -95,7 +103,7 @@ button.signin {
 	white-space: nowrap;
 }
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("twitter")){ %>
+<%if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("twitter")){%>
 button.twitter {
 	background: #00aced;
 }
@@ -103,9 +111,9 @@ button.twitter {
 button.twitter:hover {
 	background: #11bdfe;
 }
-<% } %>
+<%}%>
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){ %>
+<%if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("facebook")){%>
 button.facebook {
 	background: #3b5998;
 }
@@ -113,9 +121,9 @@ button.facebook {
 button.facebook:hover {
 	background: #4c6aa9;
 }
-<% } %>
+<%}%>
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){ %>
+<%if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("googleplus")){%>
 button.googleplus {
 	background: #d03324;
 }
@@ -123,9 +131,9 @@ button.googleplus {
 button.googleplus:hover {
 	background: #e14435;
 }
-<% } %>
+<%}%>
 
-<% if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("persona")){ %>
+<%if(AuthenticationServiceConfiguration.getInstance().isServiceEnabled("persona")){%>
 button.persona {
 	background: #bbbbbb;
 }
@@ -133,7 +141,7 @@ button.persona {
 button.persona:hover {
 	background: #cccccc;
 }
-<% } %>
+<%}%>
 
 #signinresults {
 	background: #fff;
@@ -172,13 +180,19 @@ Just a quick experiment with 3rd party authentications.  The system will redirec
           <span class='signin-icon <%=service%>'></span><span class="signin-text"><img class="center" width="32" height="32" border="0" src="images/icons/<%=service%>.png"/> Connect with <%=AuthenticationServiceConfiguration.getInstance().getServiceName(service)%></span>
         </button>
       </form>
-	<% } %>
-<% } else { %>
+	<%
+		}
+	%>
+<%
+	} else {
+%>
       <div id="signinservicesmessage">
         <h2>No services available!</h2>
         Hmm, did you configure your secrets properly in the property file?  How about making sure .enabled is true?
       </div>
-<% } %>
+<%
+	}
+%>
     </div>
 
     <br clear="all" />
@@ -187,8 +201,8 @@ Just a quick experiment with 3rd party authentications.  The system will redirec
 
     <br />
 <%
-ServletRequestResponseBroker broker = new ServletRequestResponseBroker(request, response); 
-AuthenticationResults ar = (AuthenticationResults) broker.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults());
+	ServletRequestResponseBroker broker = new ServletRequestResponseBroker(request, response); 
+AuthenticationResult ar = (AuthenticationResult) broker.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults());
 String profileURL = null;
 String imageURL = null;
 String displayName = null;

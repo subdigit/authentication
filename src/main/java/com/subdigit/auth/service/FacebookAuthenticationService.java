@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 import com.subdigit.utilities.RequestResponseBroker;
 
@@ -50,7 +50,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 
 
 	@Override
-	protected AuthenticationResults connectService(AuthenticationResults ar)
+	protected AuthenticationResult connectService(AuthenticationResult ar)
 	{
 		ar.addStatus(200, "Redirecting to the authentication service for: " + getIdentifier());
 		ar.setRedirectURL(getLoginRedirectURL(ar.getState()));
@@ -73,7 +73,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 	}
 
 	@Override
-	protected AuthenticationResults validateService(AuthenticationResults ar)
+	protected AuthenticationResult validateService(AuthenticationResult ar)
 	{
 		boolean success = false;
 		String authenticationCode = null;
@@ -109,7 +109,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 	}
 
 
-	private boolean getFacebookData(String accessToken, AuthenticationResults ar)
+	private boolean getFacebookData(String accessToken, AuthenticationResult ar)
 	{
 		String responseBody = HttpConnectionHelper.getBasicResponse(getDataURL(accessToken));
 
@@ -161,7 +161,7 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 
     
 	@Override
-	protected AuthenticationResults disconnectService(AuthenticationResults ar)
+	protected AuthenticationResult disconnectService(AuthenticationResult ar)
 	{
 		ar.addStatus(200, "Successfully disconnected");
 		ar.setSuccess(true);

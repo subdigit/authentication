@@ -6,7 +6,7 @@ import java.security.SecureRandom;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.subdigit.auth.AuthenticationResults;
+import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
 import com.subdigit.utilities.RequestResponseBroker;
@@ -44,11 +44,11 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 	}
 
 
-	public AuthenticationResults newAuthenticationResults(){ return new AuthenticationResults(getIdentifier()); }
+	public AuthenticationResult newAuthenticationResults(){ return new AuthenticationResult(getIdentifier()); }
 
-	public AuthenticationResults connect()
+	public AuthenticationResult connect()
 	{
-		AuthenticationResults ar = newAuthenticationResults();
+		AuthenticationResult ar = newAuthenticationResults();
 
 		if(enforceStateCheck()){
 			String state = new BigInteger(130, new SecureRandom()).toString(32);
@@ -62,9 +62,9 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 	}
 
 
-	public AuthenticationResults validate()
+	public AuthenticationResult validate()
 	{
-		AuthenticationResults ar = newAuthenticationResults();
+		AuthenticationResult ar = newAuthenticationResults();
 
 		if(enforceStateCheck()){
 			String state = _broker.getParameter(getStateCheckParameter());
@@ -82,9 +82,9 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 	}
 
 	
-	public AuthenticationResults disconnect()
+	public AuthenticationResult disconnect()
 	{
-		AuthenticationResults ar = newAuthenticationResults();
+		AuthenticationResult ar = newAuthenticationResults();
 		
 		ar = disconnectService(ar);
 		
@@ -104,7 +104,7 @@ public abstract class AbstractAuthenticationService implements AuthenticationSer
 
 
 	public abstract String getIdentifier();
-	protected abstract AuthenticationResults connectService(AuthenticationResults ar);
-	protected abstract AuthenticationResults validateService(AuthenticationResults ar);
-	protected abstract AuthenticationResults disconnectService(AuthenticationResults ar);
+	protected abstract AuthenticationResult connectService(AuthenticationResult ar);
+	protected abstract AuthenticationResult validateService(AuthenticationResult ar);
+	protected abstract AuthenticationResult disconnectService(AuthenticationResult ar);
 }
