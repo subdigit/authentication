@@ -1,14 +1,14 @@
 package com.subdigit.auth;
 
-import com.subdigit.basic.BasicResult;
+import com.subdigit.result.BasicResult;
 
 
-public class AuthenticationResult extends BasicResult
+public class AuthenticationResult extends BasicResult<Object, Object>
 {
-	String _service;
-	String _serviceUserID;
-	String _redirectURL;
-	String _state;
+	protected String _service;
+	protected String _serviceUserID;
+	protected String _redirectURL;
+	protected String _state;
 
 	public AuthenticationResult(String service)
 	{
@@ -16,11 +16,11 @@ public class AuthenticationResult extends BasicResult
 		super();
 
 		// Do our own stuff
-		_initialized = initialize(service);
-		
+		initialize(service);
+
 		// We should probably throw an exception here if the service is invalid
 		// to prevent the instance from being used.
-//		if(!_initialized) throw InvalidServiceException();
+//		if(!initialized) throw InvalidServiceException();
 	}
 
 

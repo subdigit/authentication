@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationResult,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.utilities.ServletRequestResponseBroker" %><!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationHelper,com.subdigit.auth.AuthenticationResult,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.broker.ServletRequestResponseBroker" %><!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
 <!-- Persona requirement for IE compatibility -->
@@ -201,8 +201,8 @@ Just a quick experiment with 3rd party authentications.  The system will redirec
 
     <br />
 <%
-	ServletRequestResponseBroker broker = new ServletRequestResponseBroker(request, response); 
-AuthenticationResult ar = (AuthenticationResult) broker.getAttribute(AuthenticationConfiguration.getInstance().getAttributeResults());
+AuthenticationHelper ah = new AuthenticationHelper(new ServletRequestResponseBroker(request, response));
+AuthenticationResult ar = ah.getProcessedResults();
 String profileURL = null;
 String imageURL = null;
 String displayName = null;
@@ -210,10 +210,10 @@ String email = null;
 String service = null;
 
 if(ar != null && ar.hasServiceUserID()){
-	profileURL = (String) ar.getVariable("profileurl");
-	imageURL = (String) ar.getVariable("imageurl");
-	displayName = (String) ar.getVariable("displayname");
-	email = (String) ar.getVariable("email");
+	profileURL = (String) ar.getData("profileurl");
+	imageURL = (String) ar.getData("imageurl");
+	displayName = (String) ar.getData("displayname");
+	email = (String) ar.getData("email");
 	service = ar.getService();
 	
 	if(imageURL == null) imageURL = "images/icons/" + ar.getService() + ".png";

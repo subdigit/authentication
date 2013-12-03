@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.subdigit.auth.AuthenticationHelper;
-import com.subdigit.utilities.ServletRequestResponseBroker;
+import com.subdigit.broker.ServletRequestResponseBroker;
 
 /**
  * Servlet implementation class CallbackServlet

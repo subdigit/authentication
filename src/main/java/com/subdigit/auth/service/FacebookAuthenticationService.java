@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.subdigit.auth.AuthenticationResult;
+import com.subdigit.broker.RequestResponseBroker;
 import com.subdigit.utilities.HttpConnectionHelper;
-import com.subdigit.utilities.RequestResponseBroker;
 
 public class FacebookAuthenticationService extends AbstractAuthenticationService
 {
@@ -144,15 +144,15 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 		// The primary key we need to index against the user in the local data store.
 		ar.setServiceUserID(facebookId);
 
-		ar.addVariable(KEY_PROFILEURL, link);
-		ar.addVariable(KEY_IMAGEURL, "https://graph.facebook.com/" + userName + "/picture");
-		ar.addVariable(KEY_DISPLAYNAME, fullName);
+		ar.addData(KEY_PROFILEURL, link);
+		ar.addData(KEY_IMAGEURL, "https://graph.facebook.com/" + userName + "/picture");
+		ar.addData(KEY_DISPLAYNAME, fullName);
 		
-		ar.addVariable("userName", userName);
-		ar.addVariable("firstname", firstName);
-		ar.addVariable("lastname", lastName);
-		ar.addVariable("email", email);
-		ar.addVariable("accesstoken", accessToken);
+		ar.addData("userName", userName);
+		ar.addData("firstname", firstName);
+		ar.addData("lastname", lastName);
+		ar.addData("email", email);
+		ar.addData("accesstoken", accessToken);
 
 		ar.setReturnData(jsonObject);
 

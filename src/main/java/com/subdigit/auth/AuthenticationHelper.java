@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.service.AuthenticationService;
 import com.subdigit.auth.service.AuthenticationServiceHelper;
-import com.subdigit.utilities.RequestResponseBroker;
+import com.subdigit.broker.RequestResponseBroker;
 
 public class AuthenticationHelper
 {
@@ -187,12 +187,25 @@ System.err.println(ar.printDiagnostics());
 		} else authResults.addStatus(404, "Authentication service '" + service + "' not found");
 
 		// Save the results for use outside of this scope.
-		_broker.setAttribute(_ac.getAttributeResults(), authResults);
+		setProcessedResults(authResults);
 
 		return authResults;
 	}
 
-	
+
+	public void setProcessedResults(AuthenticationResult result)
+	{
+		// Save the results for use outside of this scope.
+		_broker.setAttribute(_ac.getAttributeResults(), result);
+	}
+
+
+	public AuthenticationResult getProcessedResults()
+	{
+		return (AuthenticationResult) _broker.getAttribute(_ac.getAttributeResults());
+	}
+
+
 	private String extractService()
 	{
 		String service = null;

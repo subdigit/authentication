@@ -1,4 +1,4 @@
-package com.subdigit.utilities;
+package com.subdigit.broker;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,47 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<HttpServletRequest,HttpServletResponse>
 {
-	private boolean _initialized;
-	private HttpServletRequest _request;
-	private HttpServletResponse _response;
+	public ServletRequestResponseBroker(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
 
-
-	public ServletRequestResponseBroker(){}
-	public ServletRequestResponseBroker(HttpServletRequest request, HttpServletResponse response)
-	{
-		_initialized = false;
-		_request = null;
-		_response = null;
-		
-		initialize(request, response);
-	}
-
-
-	public boolean initialize(HttpServletRequest request, HttpServletResponse response)
-	{
-		boolean success = false;
-
-		_request = request;
-		_response = response;
-
-		if(_request != null && _response != null) success = true;
-
-		_initialized = success;
-
-		return success;
-	}
-	
-	
-	public HttpServletRequest getRequest(){ return _request; }
-	public RequestResponseBroker<HttpServletRequest,HttpServletResponse> setRequest(HttpServletRequest value){ _request = value; return this; }
-
-	public HttpServletResponse getResponse(){ return _response; }
-	public RequestResponseBroker<HttpServletRequest,HttpServletResponse> setResponse(HttpServletResponse value){ _response = value; return this; }
-
-
-	public boolean initialized(){ return _initialized; }
 
 	public Object getAttribute(String key)
 	{
@@ -68,13 +32,6 @@ public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<
 	{
 		if(_request == null) return;
 		_request.getSession().removeAttribute(key);
-	}
-
-
-	public String getParameter(String key)
-	{
-		if(_request == null) return null;
-		else return _request.getParameter(key);
 	}
 
 

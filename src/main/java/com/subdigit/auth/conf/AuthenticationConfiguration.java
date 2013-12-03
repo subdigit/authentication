@@ -38,9 +38,6 @@ public class AuthenticationConfiguration
 	public static final String DEFAULT_PARAMETER_STATE					= "state";
 	public static final String DEFAULT_ATTRIBUTE_RESULTS				= "authresults";
 
-	private static AuthenticationConfiguration _applicationConfiguration;
-
-	
 	private String _applicationName;
 	private String _applicationBase;
 	private String _applicationBaseSecure;
@@ -54,12 +51,11 @@ public class AuthenticationConfiguration
 	private String _parameterVia;
 	private String _parameterState;
 	private String _attributeResults;
-	
-	static {
-		_applicationConfiguration = new AuthenticationConfiguration();
-	}
 
-	public static AuthenticationConfiguration getInstance(){ return _applicationConfiguration; }
+	
+	// http://stackoverflow.com/a/71683
+	public static AuthenticationConfiguration getInstance(){ return _Holder.instance; }
+	private static class _Holder { public static AuthenticationConfiguration instance = new AuthenticationConfiguration(); }
 
 
 	private AuthenticationConfiguration()
@@ -72,33 +68,19 @@ public class AuthenticationConfiguration
 	{
 		CompositeConfiguration config = createPropertyReader();
 
-		_applicationName				= DEFAULT_APPLICATION_NAME;
-		_applicationBase				= DEFAULT_APPLICATION_BASE;
-		_applicationBaseSecure			= DEFAULT_APPLICATION_BASE_SECURE;
-		_applicationRoot				= DEFAULT_APPLICATION_ROOT;
-		_applicationRestStyleEndpoint	= DEFAULT_APPLICATION_RESTSTYLEENDPOINT;
-		_applicationEndpointLogin		= DEFAULT_APPLICATION_ENDPOINT_LOGIN;
-		_applicationEndpointConnect		= DEFAULT_APPLICATION_ENDPOINT_CONNECT;
-		_applicationEndpointCallback	= DEFAULT_APPLICATION_ENDPOINT_CALLBACK;
-		_applicationEndpointLogout		= DEFAULT_APPLICATION_ENDPOINT_LOGOUT;
-		_applicationEndpointDisconnect	= DEFAULT_APPLICATION_ENDPOINT_DISCONNECT;
-		_parameterVia					= DEFAULT_PARAMETER_VIA;
-		_parameterState					= DEFAULT_PARAMETER_STATE;
-		_attributeResults				= DEFAULT_ATTRIBUTE_RESULTS;
-
-		_applicationName				= config.getString(String.format(PROPERTY_APPLICATION_NAME));
-		_applicationBase				= config.getString(String.format(PROPERTY_APPLICATION_BASE));
-		_applicationBaseSecure			= config.getString(String.format(PROPERTY_APPLICATION_BASE_SECURE));
-		_applicationRoot				= config.getString(String.format(PROPERTY_APPLICATION_ROOT));
-		_applicationRestStyleEndpoint	= config.getBoolean(String.format(PROPERTY_APPLICATION_RESTSTYLEENDPOINT));
-		_applicationEndpointLogin		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_LOGIN));
-		_applicationEndpointConnect		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_CONNECT));
-		_applicationEndpointCallback	= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_CALLBACK));
-		_applicationEndpointLogout		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_LOGOUT));
-		_applicationEndpointDisconnect	= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_DISCONNECT));
-		_parameterVia					= config.getString(String.format(PROPERTY_PARAMETER_VIA));
-		_parameterState					= config.getString(String.format(PROPERTY_PARAMETER_STATE));
-		_attributeResults				= config.getString(String.format(PROPERTY_ATTRIBUTE_RESULTS));
+		_applicationName				= config.getString(String.format(PROPERTY_APPLICATION_NAME), DEFAULT_APPLICATION_NAME);
+		_applicationBase				= config.getString(String.format(PROPERTY_APPLICATION_BASE), DEFAULT_APPLICATION_BASE);
+		_applicationBaseSecure			= config.getString(String.format(PROPERTY_APPLICATION_BASE_SECURE), DEFAULT_APPLICATION_BASE_SECURE);
+		_applicationRoot				= config.getString(String.format(PROPERTY_APPLICATION_ROOT), DEFAULT_APPLICATION_ROOT);
+		_applicationRestStyleEndpoint	= config.getBoolean(String.format(PROPERTY_APPLICATION_RESTSTYLEENDPOINT), DEFAULT_APPLICATION_RESTSTYLEENDPOINT);
+		_applicationEndpointLogin		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_LOGIN), DEFAULT_APPLICATION_ENDPOINT_LOGIN);
+		_applicationEndpointConnect		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_CONNECT), DEFAULT_APPLICATION_ENDPOINT_CONNECT);
+		_applicationEndpointCallback	= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_CALLBACK), DEFAULT_APPLICATION_ENDPOINT_CALLBACK);
+		_applicationEndpointLogout		= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_LOGOUT), DEFAULT_APPLICATION_ENDPOINT_LOGOUT);
+		_applicationEndpointDisconnect	= config.getString(String.format(PROPERTY_APPLICATION_ENDPOINT_DISCONNECT), DEFAULT_APPLICATION_ENDPOINT_DISCONNECT);
+		_parameterVia					= config.getString(String.format(PROPERTY_PARAMETER_VIA), DEFAULT_PARAMETER_VIA);
+		_parameterState					= config.getString(String.format(PROPERTY_PARAMETER_STATE), DEFAULT_PARAMETER_STATE);
+		_attributeResults				= config.getString(String.format(PROPERTY_ATTRIBUTE_RESULTS), DEFAULT_ATTRIBUTE_RESULTS);
 	}
 
 

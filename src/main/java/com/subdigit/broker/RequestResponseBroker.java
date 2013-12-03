@@ -1,14 +1,16 @@
-package com.subdigit.utilities;
+package com.subdigit.broker;
 
 import java.util.Map;
 
 
-public interface RequestResponseBroker<T,K>
+public interface RequestResponseBroker<RequestType, ResponseType>
 {
+	public boolean reinitialize();
+	public boolean initialize(RequestType request, ResponseType response);
 	public boolean initialized();
 
-	public T getRequest();
-	public K getResponse();
+	public RequestType getRequest();
+	public ResponseType getResponse();
 
 	public String getAttributeString(String key);
 	public Object getAttribute(String key);

@@ -46,8 +46,8 @@
     <twitter4j-core.version>              3.0.3</twitter4j-core.version>
     <commons-lang3.version>               3.1</commons-lang3.version>
     <commons-configuration.version>       1.9</commons-configuration.version>
-    <httpclient.version>                  4.3-alpha1</httpclient.version>
-    <httpclient-cache.version>            4.3-alpha1</httpclient-cache.version>
+    <httpclient.version>                  4.3.1</httpclient.version>
+    <httpclient-cache.version>            4.3.1</httpclient-cache.version>
     <gson.version>                        2.2.2</gson.version>
     <guava.version>                       14.0</guava.version>
     <google-api-client.version>           1.13.2-beta</google-api-client.version>
@@ -55,7 +55,7 @@
     <google-api-services-plus.version>    v1-rev58-1.13.2-beta</google-api-services-plus.version>
     <google-http-client-jackson.version>  1.13.1-beta</google-http-client-jackson.version>
 <!--
-    <google-api-client.version>           1.4.1-beta</google-api-client.version>
+    <google-api-client.version>           1.17.0-rc</google-api-client.version>
     <google-api-services-oauth2.version>  v2-rev51-1.17.0-rc</google-api-services-oauth2.version>
     <google-api-services-plus.version>    v1-rev99-1.17.0-rc</google-api-services-plus.version>
     <google-http-client-jackson.version>  1.70.0-rc</google-http-client-jackson.version>

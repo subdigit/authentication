@@ -11,7 +11,7 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.utilities.RequestResponseBroker;
+import com.subdigit.broker.RequestResponseBroker;
 
 public class TwitterAuthenticationService extends AbstractAuthenticationService
 {
@@ -81,13 +81,13 @@ public class TwitterAuthenticationService extends AbstractAuthenticationService
 
 			// The primary key we need to index against the user in the local data store.
 			ar.setServiceUserID("" + user.getId());
-			ar.addVariable(KEY_PROFILEURL, user.getURL());
-			ar.addVariable(KEY_IMAGEURL, user.getProfileImageURL());
-			ar.addVariable(KEY_DISPLAYNAME, user.getName());
+			ar.addData(KEY_PROFILEURL, user.getURL());
+			ar.addData(KEY_IMAGEURL, user.getProfileImageURL());
+			ar.addData(KEY_DISPLAYNAME, user.getName());
 
-			ar.addVariable("screenname", user.getScreenName());
-			ar.addVariable("token", accessToken.getToken());
-			ar.addVariable("tokensecret", accessToken.getTokenSecret());
+			ar.addData("screenname", user.getScreenName());
+			ar.addData("token", accessToken.getToken());
+			ar.addData("tokensecret", accessToken.getTokenSecret());
 
 			ar.setReturnData(twitter);
 

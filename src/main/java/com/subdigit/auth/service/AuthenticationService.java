@@ -1,7 +1,7 @@
 package com.subdigit.auth.service;
 
 import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.utilities.RequestResponseBroker;
+import com.subdigit.broker.RequestResponseBroker;
 
 public interface AuthenticationService
 {

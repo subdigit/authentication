@@ -21,8 +21,8 @@ import com.google.api.services.oauth2.model.Tokeninfo;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.subdigit.auth.AuthenticationResult;
+import com.subdigit.broker.RequestResponseBroker;
 import com.subdigit.utilities.HttpConnectionHelper;
-import com.subdigit.utilities.RequestResponseBroker;
 
 
 public class GooglePlusAuthenticationService extends AbstractAuthenticationService
@@ -181,9 +181,9 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 		ar.setServiceUserID(person.getId());
 
 		// Some additional information about the person.
-		ar.addVariable(KEY_PROFILEURL, person.getUrl());
-		ar.addVariable(KEY_IMAGEURL, person.getImage().getUrl());
-		ar.addVariable(KEY_DISPLAYNAME, person.getDisplayName());
+		ar.addData(KEY_PROFILEURL, person.getUrl());
+		ar.addData(KEY_IMAGEURL, person.getImage().getUrl());
+		ar.addData(KEY_DISPLAYNAME, person.getDisplayName());
 
 		// Store any returned object we want to parse later.
 		ar.setReturnData(person);

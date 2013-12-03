@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
-import com.subdigit.utilities.RequestResponseBroker;
+import com.subdigit.broker.RequestResponseBroker;
 
 public abstract class AbstractAuthenticationService implements AuthenticationService
 {

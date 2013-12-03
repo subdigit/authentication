@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.subdigit.auth.AuthenticationResult;
+import com.subdigit.broker.RequestResponseBroker;
 import com.subdigit.utilities.HttpConnectionHelper;
-import com.subdigit.utilities.RequestResponseBroker;
 
 public class PersonaAuthenticationService extends AbstractAuthenticationService
 {
@@ -102,11 +102,11 @@ System.err.println("Fetching Assertion: " + assertion);
 		// The primary key we need to index against the user in the local data store.
 		ar.setServiceUserID(personaID);
 
-		ar.addVariable("status", status);
-		ar.addVariable("email", personaID);
-		ar.addVariable("audience", audience);
-		ar.addVariable("expires", expires);
-		ar.addVariable("issuer", issuer);
+		ar.addData("status", status);
+		ar.addData("email", personaID);
+		ar.addData("audience", audience);
+		ar.addData("expires", expires);
+		ar.addData("issuer", issuer);
 
 		ar.setReturnData(jsonObject);
 

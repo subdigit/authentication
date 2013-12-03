@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.subdigit.auth.service.AuthenticationService;
 
+
 public class AuthenticationServiceConfiguration
 {
 	public static final String PREFIX								= "asc";
@@ -40,19 +41,15 @@ public class AuthenticationServiceConfiguration
 	public static final List<String> DEFAULT_SERVICE_SCOPE			= null;
 	public static final boolean DEFAULT_SERVICE_STATECHECK			= false;
 
-	private static AuthenticationServiceConfiguration _authenticationServiceConfiguration;
-
 
 	private List<String> _enabledServices;
 	private Map<String,ServiceData> _services;
+
+
+	// http://stackoverflow.com/a/71683
+	public static AuthenticationServiceConfiguration getInstance(){ return _Holder.instance; }
+	private static class _Holder { public static AuthenticationServiceConfiguration instance = new AuthenticationServiceConfiguration(); }
 	
-	static {
-		_authenticationServiceConfiguration = new AuthenticationServiceConfiguration();
-	}
-
-	public static AuthenticationServiceConfiguration getInstance(){ return _authenticationServiceConfiguration; }
-
-
 
 	private AuthenticationServiceConfiguration()
 	{
