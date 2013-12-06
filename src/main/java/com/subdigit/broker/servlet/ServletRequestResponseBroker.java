@@ -1,4 +1,4 @@
-package com.subdigit.broker;
+package com.subdigit.broker.servlet;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -7,9 +7,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.net.MediaType;
+import com.subdigit.broker.AbstractRequestResponseBroker;
 
 
-public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<HttpServletRequest,HttpServletResponse>
+
+public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<HttpServletRequest,HttpServletResponse,Boolean>
 {
 	public ServletRequestResponseBroker(HttpServletRequest request, HttpServletResponse response){ super(request, response); }
 
@@ -42,7 +45,7 @@ public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<
 	}
 
 	
-	public boolean redirect(String url)
+	public Boolean redirect(String url)
 	{
 		if(url == null || url.trim().length() == 0) return false;
 
@@ -137,4 +140,22 @@ public class ServletRequestResponseBroker extends AbstractRequestResponseBroker<
 
         return data;
     }
+
+
+	public MediaType getAcceptedMediaType(MediaType... preferredMediaTypes)
+	{
+		if(_request == null) return null;
+		if(preferredMediaTypes == null) return null;
+
+		String acceptedHeaders = _request.getHeader("Accept");
+		if(acceptedHeaders == null) return null;
+		
+		for(MediaType type : preferredMediaTypes){
+			if(type != null){
+				if(acceptedHeaders.contains(type.withoutParameters().toString())) return type;
+			}
+		}
+
+		return null;
+	}
 }

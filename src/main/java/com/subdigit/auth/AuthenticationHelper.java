@@ -3,23 +3,24 @@ package com.subdigit.auth;
 import org.apache.commons.lang3.StringUtils;
 
 import com.subdigit.auth.conf.AuthenticationConfiguration;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.auth.service.AuthenticationService;
 import com.subdigit.auth.service.AuthenticationServiceHelper;
 import com.subdigit.broker.RequestResponseBroker;
 
 public class AuthenticationHelper
 {
-	protected RequestResponseBroker<?,?> _broker;
+	protected RequestResponseBroker<?,?,?> _broker;
 	protected AuthenticationConfiguration _ac;
 
 
-	public AuthenticationHelper(RequestResponseBroker<?,?> broker)
+	public AuthenticationHelper(RequestResponseBroker<?,?,?> broker)
 	{
 		initialize(broker);
 	}
 
 	
-	public boolean initialize(RequestResponseBroker<?,?> broker)
+	public boolean initialize(RequestResponseBroker<?,?,?> broker)
 	{
 		boolean success = false;
 

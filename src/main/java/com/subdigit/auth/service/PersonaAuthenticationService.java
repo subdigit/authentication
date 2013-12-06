@@ -3,23 +3,16 @@ package com.subdigit.auth.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.broker.RequestResponseBroker;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 
 public class PersonaAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "persona";
-
-	public PersonaAuthenticationService(){ super(); }
-	public PersonaAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getDataURL(String assertion)

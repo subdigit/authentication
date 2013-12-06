@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.subdigit.auth.AuthenticationHelper;
-import com.subdigit.broker.ServletRequestResponseBroker;
+import com.subdigit.broker.servlet.ServletRequestResponseBroker;
 
 /**
  * Servlet implementation class LoginServlet

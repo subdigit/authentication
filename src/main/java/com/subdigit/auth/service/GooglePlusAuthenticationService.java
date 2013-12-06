@@ -2,9 +2,6 @@ package com.subdigit.auth.service;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.api.client.auth.oauth2.TokenResponseException;
@@ -20,8 +17,7 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Tokeninfo;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
-import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.broker.RequestResponseBroker;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 
 
@@ -38,10 +34,6 @@ public class GooglePlusAuthenticationService extends AbstractAuthenticationServi
 	 * Default JSON factory to use to deserialize JSON.
 	 */
 	private static final JacksonFactory JSON_FACTORY = new JacksonFactory();
-
-
-	public GooglePlusAuthenticationService(){ super(); }
-	public GooglePlusAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getLoginRedirectURL(String state)

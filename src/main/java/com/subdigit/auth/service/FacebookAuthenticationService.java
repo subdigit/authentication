@@ -1,22 +1,15 @@
 package com.subdigit.auth.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.broker.RequestResponseBroker;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.utilities.HttpConnectionHelper;
 
 public class FacebookAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "facebook";
-
-	public FacebookAuthenticationService(){ super(); }
-	public FacebookAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	private String getLoginRedirectURL(String state)

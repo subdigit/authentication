@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationHelper,com.subdigit.auth.AuthenticationResult,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.broker.ServletRequestResponseBroker" %><!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%><%@page import="com.subdigit.auth.AuthenticationHelper,com.subdigit.auth.result.AuthenticationResult,com.subdigit.auth.conf.AuthenticationConfiguration,com.subdigit.auth.conf.AuthenticationServiceConfiguration,com.subdigit.broker.servlet.ServletRequestResponseBroker" %><!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
 <!-- Persona requirement for IE compatibility -->

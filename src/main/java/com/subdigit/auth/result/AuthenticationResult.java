@@ -1,4 +1,4 @@
-package com.subdigit.auth;
+package com.subdigit.auth.result;
 
 import com.subdigit.result.BasicResult;
 

@@ -1,13 +1,13 @@
 package com.subdigit.auth.service;
 
-import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.broker.RequestResponseBroker;
 
 
 public class AuthenticationServiceHelper
 {
-	public static AuthenticationService getAuthenticationService(String service, RequestResponseBroker<?,?> broker) throws IllegalArgumentException
+	public static AuthenticationService getAuthenticationService(String service, RequestResponseBroker<?,?,?> broker) throws IllegalArgumentException
 	{
 		AuthenticationService as = null;
 

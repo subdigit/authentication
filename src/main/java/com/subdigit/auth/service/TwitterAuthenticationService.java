@@ -1,8 +1,5 @@
 package com.subdigit.auth.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -10,15 +7,11 @@ import twitter4j.User;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
-import com.subdigit.auth.AuthenticationResult;
-import com.subdigit.broker.RequestResponseBroker;
+import com.subdigit.auth.result.AuthenticationResult;
 
 public class TwitterAuthenticationService extends AbstractAuthenticationService
 {
 	private static final String SERVICE_IDENTIFIER = "twitter";
-
-	public TwitterAuthenticationService(){ super(); }
-	public TwitterAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker){ super(broker); }
 
 
 	@Override

@@ -3,34 +3,31 @@ package com.subdigit.auth.service;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.subdigit.auth.AuthenticationResult;
 import com.subdigit.auth.conf.AuthenticationConfiguration;
 import com.subdigit.auth.conf.AuthenticationServiceConfiguration;
+import com.subdigit.auth.result.AuthenticationResult;
 import com.subdigit.broker.RequestResponseBroker;
 
 public abstract class AbstractAuthenticationService implements AuthenticationService
 {
-	protected RequestResponseBroker<?,?> _broker;
+	protected RequestResponseBroker<?,?,?> _broker;
 	protected AuthenticationConfiguration _ac;
 	protected AuthenticationServiceConfiguration _asc;
 
 
-	public AbstractAuthenticationService()
+	protected AbstractAuthenticationService()
 	{
 		initialize(null);
 	}
 
 
-	public AbstractAuthenticationService(RequestResponseBroker<HttpServletRequest, HttpServletResponse> broker)
+	public AbstractAuthenticationService(RequestResponseBroker<?,?,?> broker)
 	{
 		initialize(broker);
 	}
 
 	
-	public boolean initialize(RequestResponseBroker<?,?> broker)
+	public boolean initialize(RequestResponseBroker<?,?,?> broker)
 	{
 		boolean success = false;
 

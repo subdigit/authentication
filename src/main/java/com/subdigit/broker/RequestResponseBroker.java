@@ -2,8 +2,10 @@ package com.subdigit.broker;
 
 import java.util.Map;
 
+import com.google.common.net.MediaType;
 
-public interface RequestResponseBroker<RequestType, ResponseType>
+
+public interface RequestResponseBroker<RequestType, ResponseType, RedirectResponseType>
 {
 	public boolean reinitialize();
 	public boolean initialize(RequestType request, ResponseType response);
@@ -21,8 +23,10 @@ public interface RequestResponseBroker<RequestType, ResponseType>
 
 	public String getParameter(String key);
 	public String getPathInfo();
-	
-	public boolean redirect(String url);
-	
-    public Map<String,String> extractRequestData();
+
+	public MediaType getAcceptedMediaType(MediaType... preferredMediaTypes);
+
+	public RedirectResponseType redirect(String url);
+
+	public Map<String,String> extractRequestData();
 }

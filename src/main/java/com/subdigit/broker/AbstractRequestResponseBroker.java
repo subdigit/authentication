@@ -4,7 +4,7 @@ import java.util.Map;
 
 
 
-public abstract class AbstractRequestResponseBroker<RequestType, ResponseType> implements RequestResponseBroker<RequestType, ResponseType>
+public abstract class AbstractRequestResponseBroker<RequestType, ResponseType, RedirectResponseType> implements RequestResponseBroker<RequestType, ResponseType, RedirectResponseType>
 {
 	protected boolean _initialized;
 	protected RequestType _request;
@@ -66,9 +66,9 @@ public abstract class AbstractRequestResponseBroker<RequestType, ResponseType> i
 
 	@Override
 	public RequestType getRequest(){ return _request; }
-	public RequestResponseBroker<RequestType, ResponseType> setRequest(RequestType value){ _request = value; return this; }
+	public RequestResponseBroker<RequestType, ResponseType, RedirectResponseType> setRequest(RequestType value){ _request = value; return this; }
 
 	@Override
 	public ResponseType getResponse(){ return _response; }
-	public RequestResponseBroker<RequestType, ResponseType> setResponse(ResponseType value){ _response = value; return this; }
+	public RequestResponseBroker<RequestType, ResponseType, RedirectResponseType> setResponse(ResponseType value){ _response = value; return this; }
 }
