@@ -8,8 +8,11 @@
   <name>Authentication Module</name>
   <description>A module for allowing 3rd party authentications in Java via locations like Twitter, Facebook, and Google+.</description>
   <url>https://github.com/subdigit/authentication</url>
-  <version>1.0.0</version>
-
+<!--
+  <version>1.1.0-SNAPSHOT</version>
+-->
+  <version>1.1.0</version>
+  
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
@@ -43,6 +46,7 @@
     <jdk.version>                         1.7</jdk.version>
     <junit.version>                       4.11</junit.version>
     <javax.servlet-api.version>           3.0.1</javax.servlet-api.version>
+    <subdigit-core.version>               1.0.0-SNAPSHOT</subdigit-core.version>
     <twitter4j-core.version>              3.0.3</twitter4j-core.version>
     <commons-lang3.version>               3.1</commons-lang3.version>
     <commons-configuration.version>       1.9</commons-configuration.version>
@@ -79,7 +83,7 @@
   </repositories>
 
   <dependencies>
-    <dependency>
+	<dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
@@ -90,6 +94,11 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>${javax.servlet-api.version}</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.subdigit</groupId>
+      <artifactId>core</artifactId>
+      <version>${subdigit-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>
@@ -149,7 +158,7 @@
   </dependencies>
 
   <build>
-    <finalName>authentication-${project.version}</finalName>
+    <finalName>subdigit-authentication-${project.version}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
