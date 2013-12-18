@@ -111,13 +111,13 @@ public class FacebookAuthenticationService extends AbstractAuthenticationService
 		/*
 		 * Returned JSON Object:
 		 * {
-		 * 	"id":"1317079204",
-		 * 	"name":"Robi Brunner",
-		 * 	"first_name":"Robi",
-		 * 	"last_name":"Brunner",
-		 * 	"link":"http://www.facebook.com/robi.brunner",
-		 * 	"username":"robi.brunner",
-		 * 	"email":"subdigit@yahoo.com",
+		 * 	"id":"153443987",
+		 * 	"name":"Firstname Lastname",
+		 * 	"first_name":"Firstname",
+		 * 	"last_name":"Lastname",
+		 * 	"link":"http://www.facebook.com/first.last",
+		 * 	"username":"first.last",
+		 * 	"email":"someemail@facebook.com",
 		 * 	"timezone":-5,
 		 * 	"locale":"en_US",
 		 * 	"verified":true,
