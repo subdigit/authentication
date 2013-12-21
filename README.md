@@ -24,3 +24,21 @@ mvn tomcat7:run
 and then load up [http://localhost:8080/authentication/](http://localhost:8080/authentication/) (or whatever you set it to).
 
 Let me know it if works :)
+
+
+Maven Repository
+-------------------
+For now, this repository is hosted on GitHub as:
+
+    <repositories>
+      <repository>
+        <id>core-mvn-repo</id>
+        <url>https://raw.github.com/subdigit/authentication/mvn-repo/</url>
+        <snapshots>
+          <enabled>true</enabled>
+          <updatePolicy>always</updatePolicy>
+        </snapshots>
+      </repository>
+    </repositories>
+
+and it will need to also load in classes from the [Core Module](https://github.com/subdigit/core).
