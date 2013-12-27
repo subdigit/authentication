@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <groupId>com.subdigit</groupId>
   <artifactId>authentication</artifactId>
@@ -48,11 +48,12 @@
   </developers>
 
   <properties>
+    <project.identifier>                  subdigit</project.identifier>
     <project.build.sourceEncoding>        UTF-8</project.build.sourceEncoding>
     <jdk.version>                         1.7</jdk.version>
     <junit.version>                       4.11</junit.version>
     <javax.servlet-api.version>           3.0.1</javax.servlet-api.version>
-    <subdigit-core.version>               1.0.2</subdigit-core.version>
+    <subdigit-core.version>               1.0.3</subdigit-core.version>
     <twitter4j-core.version>              3.0.3</twitter4j-core.version>
     <commons-lang3.version>               3.1</commons-lang3.version>
     <commons-configuration.version>       1.9</commons-configuration.version>
@@ -75,7 +76,7 @@
     <google-http-client-jackson.version>  1.70.0-rc</google-http-client-jackson.version>
 -->
     <maven-jar-plugin.version>            2.4</maven-jar-plugin.version>
-    <maven-war-plugin.version>            2.3</maven-war-plugin.version>
+    <maven-war-plugin.version>            2.4</maven-war-plugin.version>
     <maven-compiler-plugin.version>       3.0</maven-compiler-plugin.version>
     <maven-release-plugin.version>        2.4.2</maven-release-plugin.version>
     <maven-install-plugin.version>        2.5.1</maven-install-plugin.version>
@@ -186,7 +187,7 @@
 -->
 
   <build>
-    <finalName>subdigit-${project.artifactId}-${project.version}</finalName>
+    <finalName>${project.identifier}-${project.artifactId}-${project.version}</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -255,6 +256,15 @@
             </resource>
           </webResources>
         </configuration>
+        <executions>
+          <execution>
+            <id>package-war</id>
+            <goals>
+                <goal>war</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -279,6 +289,7 @@
       </plugin>
 
       <!-- http://communitygrids.blogspot.com/2007/11/maven-making-war-and-jar-at-same-time.html -->
+      <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-install-plugin</artifactId>
@@ -294,11 +305,12 @@
               <artifactId>${project.artifactId}</artifactId>
               <groupId>${project.groupId}</groupId>
               <version>${project.version}</version>
-              <file>${project.build.directory}/subdigit-authentication-${project.version}.jar</file>
+              <file>${project.build.directory}/${project.identifier}-${project.artifactId}-${project.version}.jar</file>
             </configuration>
           </execution>
         </executions>
       </plugin>
+      -->
 
       <!-- http://maven.apache.org/plugins/maven-source-plugin/usage.html -->
       <plugin>
@@ -336,13 +348,13 @@
         <artifactId>site-maven-plugin</artifactId>
         <version>${github-site-maven-plugin.version}</version>
         <configuration>
-          <message>Maven artifacts for ${project.version}</message>                <!-- git commit message -->
-          <noJekyll>true</noJekyll>                                                <!-- disable webpage processing -->
-          <outputDirectory>${project.build.directory}/${github-site-maven-plugin.branch}</outputDirectory>   <!-- matches distribution management repository url above -->
-          <branch>refs/heads/${github-site-maven-plugin.branch}</branch>                                     <!-- remote branch name -->
+          <message>Maven artifacts for ${project.artifactId} ${project.version}</message>                  <!-- git commit message -->
+          <noJekyll>true</noJekyll>                                                                        <!-- disable webpage processing -->
+          <outputDirectory>${project.build.directory}/${github-site-maven-plugin.branch}</outputDirectory> <!-- matches distribution management repository url above -->
+          <branch>refs/heads/${github-site-maven-plugin.branch}</branch>                                   <!-- remote branch name -->
           <includes><include>**/*</include></includes>
-          <repositoryName>${github-site-maven-plugin.repository}</repositoryName>  <!-- github repo name -->
-          <repositoryOwner>${github-site-maven-plugin.user}</repositoryOwner>      <!-- github username  -->
+          <repositoryName>${github-site-maven-plugin.repository}</repositoryName>                          <!-- github repo name -->
+          <repositoryOwner>${github-site-maven-plugin.user}</repositoryOwner>                              <!-- github username -->
         </configuration>
         <executions>
           <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
@@ -360,6 +372,7 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>${tomcat7-maven-plugin.version}</version>
         <configuration>
+           <ignorePackaging>true</ignorePackaging>
           <url>http://localhost:8080/manager</url>
         </configuration>
       </plugin>
