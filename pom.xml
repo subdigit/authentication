@@ -7,7 +7,7 @@
   <name>Authentication Module</name>
   <description>A module for allowing 3rd party authentications in Java via locations like Twitter, Facebook, and Google+.</description>
   <url>https://github.com/subdigit/authentication</url>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.1.2</version>
   
   <licenses>
     <license>
@@ -26,7 +26,7 @@
     <url>https://github.com/subdigit/authentication</url>
     <connection>scm:git:ssh://github.com/subdigit/authentication.git</connection>
     <developerConnection>scm:git:git@github.com:subdigit/authentication.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v1.1.2</tag>
   </scm>
 
   <!-- http://stackoverflow.com/a/14013645 -->
