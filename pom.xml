@@ -111,7 +111,7 @@
     <dependency>
       <groupId>com.subdigit</groupId>
       <artifactId>core</artifactId>
-      <version>1.0.4</version>
+      <version>${subdigit-core.version}</version>
     </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>
