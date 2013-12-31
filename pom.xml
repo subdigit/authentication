@@ -26,7 +26,7 @@
     <url>https://github.com/subdigit/authentication</url>
     <connection>scm:git:ssh://github.com/subdigit/authentication.git</connection>
     <developerConnection>scm:git:git@github.com:subdigit/authentication.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v1.2.0</tag>
   </scm>
 
   <!-- http://stackoverflow.com/a/14013645 -->
@@ -53,7 +53,7 @@
     <jdk.version>                         1.7</jdk.version>
     <junit.version>                       4.11</junit.version>
     <javax.servlet-api.version>           3.0.1</javax.servlet-api.version>
-    <subdigit-core.version>               1.0.4-SNAPSHOT</subdigit-core.version>
+    <subdigit-core.version>               1.2.0</subdigit-core.version>
     <twitter4j-core.version>              3.0.3</twitter4j-core.version>
     <commons-lang3.version>               3.1</commons-lang3.version>
     <commons-configuration.version>       1.9</commons-configuration.version>
@@ -111,7 +111,7 @@
     <dependency>
       <groupId>com.subdigit</groupId>
       <artifactId>core</artifactId>
-      <version>${subdigit-core.version}</version>
+      <version>1.0.4</version>
     </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>
