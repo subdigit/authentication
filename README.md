@@ -32,7 +32,7 @@ For now, this repository is hosted on GitHub as:
 
     <repositories>
       <repository>
-        <id>core-mvn-repo</id>
+        <id>com.subdigit.authentication</id>
         <url>https://raw.github.com/subdigit/authentication/mvn-repo/</url>
         <snapshots>
           <enabled>true</enabled>
